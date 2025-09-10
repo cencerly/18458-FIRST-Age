@@ -11,17 +11,15 @@ import java.util.List;
 public class Test extends LinearOpMode {
 
     enum Path {
-        PARK
+        PRELOAD,
+        SCORE1
     }
-
-
 
     @Override
     public void runOpMode() throws InterruptedException {
 
         final FtcDashboard dash = FtcDashboard.getInstance();
         List<Action> runningActions = new ArrayList<>();
-
 
 
     }
