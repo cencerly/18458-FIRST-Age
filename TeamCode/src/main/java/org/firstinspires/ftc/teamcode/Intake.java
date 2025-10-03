@@ -20,7 +20,4 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
             this.dcMotor = (DcMotor) hardwareMap.get("Intake");
 
         }
-
-
-
 }

@@ -14,15 +14,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
     public class TeleopDT extends LinearOpMode {
 
         public DcMotor frontLeft, backLeft, frontRight, backRight;
+        public OutTake outTake;
 
         @Override
         public void runOpMode() throws InterruptedException {
+            this.outTake = new OutTake(hardwareMap, gamepad2);
 
             this.frontLeft = hardwareMap.dcMotor.get("frontLeft");
             this.backLeft = hardwareMap.dcMotor.get("backLeft");
             this.frontRight = hardwareMap.dcMotor.get("frontRight");
             this.backRight = hardwareMap.dcMotor.get("backRight");
 
+            frontLeft.setDirection(DcMotorSimple.Direction.FORWARD);
+            backLeft.setDirection(DcMotorSimple.Direction.REVERSE);
             frontRight.setDirection(DcMotorSimple.Direction.REVERSE);
             backRight.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -46,22 +50,19 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
             if (isStopRequested()) return;
 
             while (opModeIsActive()) {
+                outTake.tele();
                 double y = -gamepad1.left_stick_y;
                 double x = gamepad1.left_stick_x;
                 double rx = gamepad1.right_stick_x;
                 boolean slowmode = gamepad1.right_bumper;
-                boolean imuReset;;
-                boolean slow = false;
+                double slowMode;
 
                 if (gamepad1.options) {
                     imu.resetYaw();
-
                 }
-
-                double slowMode = 0.3;
-                if (slow) {
+                if (slowmode) {
                     slowMode = 0.3;
-                }
+                } else slowMode = 1;
 
                 double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
 
