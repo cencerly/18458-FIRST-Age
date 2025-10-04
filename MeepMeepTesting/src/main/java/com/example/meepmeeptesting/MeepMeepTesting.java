@@ -19,11 +19,18 @@ public class MeepMeepTesting {
                 .setDimensions(13.41339, 14.33071)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(60, -15, Math.toRadians(180)))
+        //Red Start
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(60, 15, Math.toRadians(180)))
 
-                //park
-                .strafeToConstantHeading(new Vector2d(45, -15))
+                //Red Park
+                .strafeToConstantHeading(new Vector2d(45, 15))
 
+
+                //Blue Start
+        //myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(60, -15, Math.toRadians(180)))
+
+                //Blue Park
+                //.strafeToConstantHeading(new Vector2d(45, -15))
 
                 .build());
 
