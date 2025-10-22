@@ -19,20 +19,10 @@ public class MeepMeepTestingBlue {
                 .setDimensions(13.41339, 14.33071)
                 .build();
 
-        //Red Start
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(60, 15, Math.toRadians(180)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(60, -15, Math.toRadians(180)))
 
-                //Red Park
-                .strafeToConstantHeading(new Vector2d(45, 15))
-
-
-                //Blue Start
-        //myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(60, -15, Math.toRadians(180)))
-
-                //Blue Park
-                //.strafeToConstantHeading(new Vector2d(45, -15))
-
-                .build());
+                .strafeToConstantHeading(new Vector2d(45, -15))
+                        .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
                 .setDarkMode(true)
