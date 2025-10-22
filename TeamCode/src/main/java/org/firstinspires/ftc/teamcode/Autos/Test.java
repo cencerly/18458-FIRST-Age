@@ -15,7 +15,6 @@ import org.firstinspires.ftc.teamcode.OutTake;
 import java.util.ArrayList;
 import java.util.List;
 
-@Config
 @Autonomous
 public class Test extends LinearOpMode {
     public DriveCommands drive;
@@ -42,12 +41,7 @@ public class Test extends LinearOpMode {
             waitForStart();
 
             if (opModeIsActive()) {
-
-                switch (path) {
-                    case PARK:
-                        drive.StrafeToConstantHeading(PARK, StartPose);
-
-                }
+                drive.StrafeToConstantHeading(PARK, StartPose);
             }
             List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {

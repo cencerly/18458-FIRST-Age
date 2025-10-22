@@ -27,7 +27,9 @@ public class OutTake {
 
     public void tele() {
         if (gamepad2.a) {
-            shoot(SHOOT);
+            while(gamepad2.a) {
+                shoot(SHOOT);
+            }
         }
             else {
                 dcMotor.setPower(0);
