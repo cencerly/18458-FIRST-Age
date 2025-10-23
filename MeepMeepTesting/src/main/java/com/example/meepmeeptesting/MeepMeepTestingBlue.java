@@ -34,5 +34,4 @@ public class MeepMeepTestingBlue {
                 .addEntity(myBot)
                 .start();
     }
-    //o
 }
