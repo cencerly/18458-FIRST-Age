@@ -1,6 +1,7 @@
 package com.example.meepmeeptesting;
 
 import com.acmerobotics.roadrunner.Pose2d;
+import com.acmerobotics.roadrunner.TrajectoryBuilder;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.noahbres.meepmeep.MeepMeep;
 import com.noahbres.meepmeep.core.colorscheme.scheme.ColorSchemeBlueDark;
@@ -19,10 +20,13 @@ public class MeepMeepTestingBlue {
                 .setDimensions(13.41339, 14.33071)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(60, -15, Math.toRadians(180)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(63, 10, Math.toRadians(180)))
 
-                .strafeToConstantHeading(new Vector2d(45, -15))
-                        .build());
+                .splineTo(new Vector2d(36, 45), Math.toRadians(90))
+
+                        . strafeToConstantHeading(new Vector2d(0, 20))
+                        .splineTo(new Vector2d(-40, 30), Math.toRadians(120))
+                .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
                 .setDarkMode(true)
