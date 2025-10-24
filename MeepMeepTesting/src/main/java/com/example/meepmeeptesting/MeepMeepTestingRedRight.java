@@ -30,5 +30,6 @@ public class MeepMeepTestingRedRight {
                 .setBackgroundAlpha(0.95f)
                 .addEntity(myBot)
                 .start();
+
     }
 }
