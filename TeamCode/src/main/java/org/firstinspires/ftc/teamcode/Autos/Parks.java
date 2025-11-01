@@ -19,7 +19,7 @@ public class Parks extends LinearOpMode {
     public DriveCommands drive;
 }
 
-enum path{
+enum Path{
     PARK
 }
 
@@ -33,23 +33,8 @@ public void runOpMode() throws InterruptedException {
     final FtcDashboard dash = FtcDashboard.getInstance();
     List<Action> runningAction = new ArrayList<>();
 
-    while (!OpModeIsActive() && !isStopRequested()) {
-        waitForStart();
+    switch (path) {
+        case PARK:
 
-        switch (path) {
-            case PARK:
-
-        }
-    }
-    List<Action> newActions = new ArrayList<>();
-    for (Action action : runningAction) {
-        TelemetryPacket packet = new TelemetryPacket();
-        action.preview(packet.fieldOverlay());
-        if (!action.run(packet)) {
-            continue;
-        }
-        newActions.add(action);
-        dash.sendTelemetryPacket(packet);
-        //push
     }
 }

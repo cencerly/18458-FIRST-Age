@@ -11,16 +11,18 @@ public class MeepMeepTestingBlueLeft {
     public static void main(String[] args) {
         MeepMeep meepMeep = new MeepMeep(600);
 
-        // Declare our first bot
         RoadRunnerBotEntity myBot = new DefaultBotBuilder(meepMeep)
-                // We set this bot to be blue
+
                 .setColorScheme(new ColorSchemeBlueDark())
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(13.41339, 14.33071)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(63, 10, Math.toRadians(180)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(65, 15, Math.toRadians(180)))
 
+                        .splineTo(new Vector2d(36, 50), Math.toRadians(90))
+                        .strafeTo(new Vector2d(20, 20))
+                        .strafeToLinearHeading(new Vector2d(-40, 20), Math.toRadians(120))
 
                 .build());
 
