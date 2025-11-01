@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
 import com.acmerobotics.dashboard.FtcDashboard;
-import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
@@ -10,8 +9,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Commands.DriveCommands;
-import org.firstinspires.ftc.teamcode.Intake;
-import org.firstinspires.ftc.teamcode.OutTake;
 import org.openftc.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
@@ -20,8 +17,6 @@ import java.util.List;
 @Autonomous
 public class Test extends LinearOpMode {
     public DriveCommands drive;
-    public OutTake outtake;
-    public Intake intake;
     public AprilTagDetection tagDetection;
 
     enum Path {

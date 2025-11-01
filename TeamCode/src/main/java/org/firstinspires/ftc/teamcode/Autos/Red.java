@@ -6,8 +6,6 @@ import com.acmerobotics.roadrunner.Action;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.firstinspires.ftc.teamcode.Commands.DriveCommands;
-import org.firstinspires.ftc.teamcode.Intake;
-import org.firstinspires.ftc.teamcode.OutTake;
 import org.openftc.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
@@ -17,8 +15,6 @@ import java.util.List;
 public class Red extends LinearOpMode {
     public DriveCommands drive;
     public AprilTagDetection id;
-    public Intake intake;
-    public OutTake outtake;
 
     enum Path {
 
