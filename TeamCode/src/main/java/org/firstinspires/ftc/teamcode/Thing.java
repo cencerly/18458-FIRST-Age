@@ -34,12 +34,12 @@ public class Thing {
 
         Intake = hardwareMap.get(DcMotor.class, "spinner");
         Intake.setDirection(DcMotorSimple.Direction.FORWARD);
-        Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
         Shooter = hardwareMap.get(DcMotor.class, "shooter");
         Shooter.setDirection(DcMotorSimple.Direction.REVERSE);
-        Shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        Shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 //        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
@@ -64,9 +64,9 @@ public class Thing {
 
         // --- Intake Control ---
         if (Driver1.x) {
-            Intake.setPower(FULL_POWER);
+            Intake.setPower(0.5);
         } else if (Driver1.y) {
-            Intake.setPower(-FULL_POWER);
+            Intake.setPower(-0.5);
         } else {
             Intake.setPower(NO_POWER);
         }
@@ -87,5 +87,11 @@ public class Thing {
 //        telemetry.addData("Servo Left Pos", Hood.getPower());
 //        telemetry.addData("Servo Right Pos", Hood.getPower());
         telemetry.update();
+    }
+    public void Intake() {
+        Intake.setPower(1);
+    }
+    public void Shooter() {
+        Shooter.setPower(1);
     }
 }

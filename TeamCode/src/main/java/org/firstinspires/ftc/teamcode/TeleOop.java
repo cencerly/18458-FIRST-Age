@@ -4,11 +4,6 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Thing;
-import org.firstinspires.ftc.teamcode.DT;
-
-
-
 @TeleOp
 public class TeleOop extends LinearOpMode {
     @Override
