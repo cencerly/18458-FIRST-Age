@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.Thing;
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous(name = "AutoAuto", group = "Autonomous")
+@Autonomous(name = "BlueFarRight", group = "Autonomous")
 public class BlueRightFar extends LinearOpMode {
     Thing shooter;
     Thing intake;
