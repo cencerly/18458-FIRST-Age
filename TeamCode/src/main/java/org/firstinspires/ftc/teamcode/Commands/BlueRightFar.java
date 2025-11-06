@@ -4,7 +4,6 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
 import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -37,12 +36,16 @@ public class BlueRightFar extends LinearOpMode {
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, startPose);
 
+        telemetry.addLine("Ready to start autonomous");
+        telemetry.update();
+
         final FtcDashboard dash = FtcDashboard.getInstance();
         List<Action> runningActions = new ArrayList<>();
 
         while (!opModeIsActive() && !isStopRequested()) {
 
             waitForStart();
+            if (isStopRequested()) return;
 
             if (opModeIsActive()) {
                 Actions.runBlocking(
