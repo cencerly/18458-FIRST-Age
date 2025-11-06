@@ -20,9 +20,9 @@ public class MeepMeepTestingBlueRight {
 
         myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(65, 15, Math.toRadians(90)))
 
-                .strafeTo(new Vector2d(36, 20))
-                        .strafeTo(new Vector2d(36, 62))
-                .strafeTo(new Vector2d(20, 20))
+                .strafeToLinearHeading(new Vector2d(36, 32), Math.toRadians(90))
+                        .strafeToLinearHeading(new Vector2d(36, 62), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(20, 20), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-40, 20), Math.toRadians(120))
 
                 .build());
