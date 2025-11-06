@@ -3,22 +3,17 @@ package org.firstinspires.ftc.teamcode.Autos;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.acmerobotics.roadrunner.Action;
-import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import org.firstinspires.ftc.teamcode.Commands.DriveCommands;
-import org.firstinspires.ftc.teamcode.Commands.GLeft;
-import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@Autonomous
+@Autonomous (name = "AutoAuto", group = "Autonomous" )
 public class AutoAuto extends LinearOpMode {
-    public DriveCommands drive;
-    public GLeft gLeft;
+    public BlueRightFar blueRightFar;
 
-    enum Path{
+    public enum Path{
 
     }
 
@@ -29,13 +24,11 @@ public class AutoAuto extends LinearOpMode {
 
         while (!opModeIsActive() && !isStopRequested()) {
 
-            drive = new DriveCommands(this);
-
             waitForStart();
 
             if (opModeIsActive()) {
 
-            }
+                }
             List<Action> newActions = new ArrayList<>();
             for (Action action : runningActions) {
                 TelemetryPacket packet = new TelemetryPacket();

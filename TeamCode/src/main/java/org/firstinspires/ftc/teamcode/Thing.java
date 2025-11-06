@@ -12,6 +12,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Thing {
     public static final double FULL_POWER = 1.0;
     public static final double NO_POWER = 0.0;
+    public static final double INTAKEPOWER = 0.5;
+    public static final double NINTAKEPOWER = -0.5;
 
     public final DcMotor Intake;
     public final DcMotor Shooter;
@@ -64,9 +66,9 @@ public class Thing {
 
         // --- Intake Control ---
         if (Driver1.x) {
-            Intake.setPower(0.5);
+            Intake.setPower(INTAKEPOWER);
         } else if (Driver1.y) {
-            Intake.setPower(-0.5);
+            Intake.setPower(NINTAKEPOWER);
         } else {
             Intake.setPower(NO_POWER);
         }
@@ -88,10 +90,16 @@ public class Thing {
 //        telemetry.addData("Servo Right Pos", Hood.getPower());
         telemetry.update();
     }
-    public void Intake() {
-        Intake.setPower(1);
+    public void IntakeOn() {
+        Intake.setPower(INTAKEPOWER);
     }
-    public void Shooter() {
-        Shooter.setPower(1);
+    public void IntakeOff() {
+        Intake.setPower(NO_POWER);
+    }
+    public void ShooterOn() {
+        Shooter.setPower(FULL_POWER);
+    }
+    public void ShooterOff() {
+        Shooter.setPower(NO_POWER);
     }
 }
