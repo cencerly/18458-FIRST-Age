@@ -18,10 +18,10 @@ public class MeepMeepTestingBlueRight {
                 .setDimensions(13.41339, 14.33071)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(65, 15, Math.toRadians(90)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(65, 15, Math.toRadians(180)))
 
-                .strafeToLinearHeading(new Vector2d(36, 32), Math.toRadians(90))
-                        .strafeToLinearHeading(new Vector2d(36, 62), Math.toRadians(90))
+                .splineTo(new Vector2d(36, 42), Math.toRadians(90))
+                .strafeToLinearHeading(new Vector2d(35, 62), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(20, 20), Math.toRadians(90))
                 .strafeToLinearHeading(new Vector2d(-40, 20), Math.toRadians(120))
 
