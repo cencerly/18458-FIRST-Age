@@ -13,10 +13,6 @@ import java.util.List;
 public class AutoAuto extends LinearOpMode {
     public BlueRightFar blueRightFar;
 
-    public enum Path{
-
-    }
-
     @Override
     public void runOpMode() throws InterruptedException {
         final FtcDashboard dash = FtcDashboard.getInstance();
