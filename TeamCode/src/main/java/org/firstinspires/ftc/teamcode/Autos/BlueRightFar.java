@@ -28,8 +28,6 @@ public class BlueRightFar extends LinearOpMode {
 
          MecanumDrive drive = new MecanumDrive(hardwareMap, startPose);
 
-         Thing intake = new Thing(this);
-
          final FtcDashboard dash = FtcDashboard.getInstance();
          List<Action> runningActions = new ArrayList<>();
 
@@ -43,12 +41,10 @@ public class BlueRightFar extends LinearOpMode {
                         drive.actionBuilder(startPose)
                                 .strafeTo(prePickup.position)
                                 .build());
-                intake.IntakeOn();
                 Actions.runBlocking(
                         drive.actionBuilder(prePickup)
                                 .strafeToLinearHeading(new Vector2d(10 ,10), Math.toRadians(180))
                                 .build());
-                intake.IntakeOff();
                 Actions.runBlocking(
                         drive.actionBuilder(pickup)
                                 .strafeTo(preShoot.position)
@@ -57,7 +53,6 @@ public class BlueRightFar extends LinearOpMode {
                         drive.actionBuilder(preShoot)
                                 .strafeTo(shoot.position)
                                 .build());
-                //shooter.ShooterOn();
             }
              List<Action> newActions = new ArrayList<>();
              for (Action action : runningActions) {

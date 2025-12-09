@@ -18,13 +18,25 @@ public class MeepMeepTestingBlueRight {
                 .setDimensions(13.41339, 14.33071)
                 .build();
 
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(65, 15, Math.toRadians(180)))
+        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(65, 20, Math.toRadians(180)))
 
-                .splineTo(new Vector2d(36, 42), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(35, 62), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(20, 20), Math.toRadians(90))
-                .strafeToLinearHeading(new Vector2d(-40, 20), Math.toRadians(120))
-
+                .splineToLinearHeading(new Pose2d(-24, 23, Math.toRadians(135)), Math.toRadians(180))
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(35, 28, Math.toRadians(90)), Math.toRadians(0))
+                .strafeTo(new Vector2d(35, 48))
+                .setTangent(Math.toRadians(270))
+                .splineToLinearHeading(new Pose2d(-24, 23, Math.toRadians(135)), Math.toRadians(180))
+                .setTangent(Math.toRadians(0))
+                .splineToLinearHeading(new Pose2d(12, 28, Math.toRadians(90)), Math.toRadians(0))
+                .strafeTo(new Vector2d(12, 48))
+                .strafeTo(new Vector2d(3, 60))
+                .setTangent(Math.toRadians(300))
+                .splineToLinearHeading(new Pose2d(-24, 23, Math.toRadians(135)), Math.toRadians(180))
+                        .setTangent(Math.toRadians(45))
+                .splineToLinearHeading(new Pose2d(-11, 29, Math.toRadians(90)), Math.toRadians(0))
+                .strafeTo(new Vector2d(-11, 48))
+                .setTangent(Math.toRadians(225))
+                .splineToLinearHeading(new Pose2d(-24, 23, Math.toRadians(135)), Math.toRadians(225))
                 .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)

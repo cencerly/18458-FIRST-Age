@@ -22,7 +22,7 @@ public class MeepMeepTestingRedLeft {
                 .splineTo(new Vector2d(-12, -38), Math.toRadians(-90))
                 .strafeTo(new Vector2d(-12, -57))
                 .strafeTo(new Vector2d(-30, -20))
-                .strafeToLinearHeading(new Vector2d(-40, -20), Math.toRadians(-120))
+                .splineTo(new Vector2d(-30, -20), Math.toRadians(190))
 
                 .build());
 
