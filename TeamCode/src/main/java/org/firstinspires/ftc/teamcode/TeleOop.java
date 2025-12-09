@@ -10,11 +10,13 @@ public class TeleOop extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         DT dt= new DT(this);
         Thing thing = new Thing(this);
+        Shooter shooter = new Shooter(this);
 
         waitForStart();
         while (opModeIsActive()) {
             dt.teleop();
             thing.teleOp();
+            shooter.teleOp();
         }
     }
 }

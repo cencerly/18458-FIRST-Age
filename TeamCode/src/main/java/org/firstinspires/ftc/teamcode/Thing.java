@@ -5,18 +5,17 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Thing {
     public static final double FULL_POWER = 1.0;
     public static final double NO_POWER = 0.0;
-    public static final double INTAKEPOWER = 0.5;
-    public static final double NINTAKEPOWER = -0.5;
+    public static final double INTAKEPOWER = 1;
+    public static final double NINTAKEPOWER =-1;
 
     public final DcMotor Intake;
-    public final DcMotor Shooter;
+    public final DcMotor Turret;
     private final Gamepad Driver1;
    // private final Gamepad Driver2;
     private final Telemetry telemetry;
@@ -39,10 +38,10 @@ public class Thing {
         Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        Shooter = hardwareMap.get(DcMotor.class, "shooter");
-        Shooter.setDirection(DcMotorSimple.Direction.REVERSE);
-        Shooter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
-        Shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        Turret = hardwareMap.get(DcMotor.class, "turret");
+        Turret.setDirection(DcMotorSimple.Direction.REVERSE);
+        Turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        Turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
 //        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
 //        servoRight = hardwareMap.get(Servo.class, "servoRight");
@@ -55,13 +54,13 @@ public class Thing {
     }
 
     public void teleOp() {
-        // --- Shooter Control ---
-        if (Driver1.left_bumper) {
-            Shooter.setPower(FULL_POWER);
-        } else if (Driver1.right_bumper) {
-            Shooter.setPower(-FULL_POWER);
+        // --- Turret Control ---
+        if (Driver1.dpad_left) {
+            Turret.setPower(FULL_POWER);
+        } else if (Driver1.dpad_right) {
+            Turret.setPower(-FULL_POWER);
         } else {
-            Shooter.setPower(NO_POWER);
+            Turret.setPower(NO_POWER);
         }
 
         // --- Intake Control ---
@@ -84,7 +83,7 @@ public class Thing {
 
 
         // Optional telemetry feedback
-        telemetry.addData("Shooter Power", Shooter.getPower());
+        telemetry.addData("Shooter Power", Turret.getPower());
         telemetry.addData("Intake Power", Intake.getPower());
 //        telemetry.addData("Servo Left Pos", Hood.getPower());
 //        telemetry.addData("Servo Right Pos", Hood.getPower());
@@ -97,9 +96,9 @@ public class Thing {
         Intake.setPower(NO_POWER);
     }
     public void ShooterOn() {
-        Shooter.setPower(FULL_POWER);
+        Turret.setPower(FULL_POWER);
     }
     public void ShooterOff() {
-        Shooter.setPower(NO_POWER);
+        Turret.setPower(NO_POWER);
     }
 }

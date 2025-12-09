@@ -58,7 +58,7 @@ public class DT {
         }
 
         if (driver.a) {
-            setSpeed(0.75);
+            setSpeed(1);
         }
 
         double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
