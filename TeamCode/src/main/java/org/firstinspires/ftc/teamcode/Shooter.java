@@ -18,7 +18,7 @@ public class Shooter {
     private PIDController velController;
     public DcMotorEx shooter, shooter2;
 
-    public double targetRPM = 4000;
+    public double targetRPM = 5000;
     public double ticksPerSecond;
     private final Gamepad Driver1;
 
@@ -46,12 +46,15 @@ public class Shooter {
     }
 
     public void teleOp() {
-        if (Driver1.left_bumper) {
-            runShooter();
-        } else {
-            stopShooter();
-        }
-    }
+        if (Driver1.x) {
+            reverseshooter();}
+
+         else if (Driver1.left_bumper) {
+        runShooter();}
+
+         else {
+        stopShooter();
+        }}
 
     public void runShooter() {
 
@@ -80,6 +83,9 @@ public class Shooter {
 
     public void stopShooter() {
         shooter.setPower(0);
-        shooter2.setPower(0);
+        shooter2.setPower(0);}
+
+        public void reverseshooter() {
+            shooter.setPower(-1);
     }
 }

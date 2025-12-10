@@ -90,8 +90,12 @@ public class Thing {
         telemetry.update();
     }
     public void IntakeOn() {
+        Intake.setPower(-INTAKEPOWER);
+    }
+    public void IntakeReverse() {
         Intake.setPower(INTAKEPOWER);
     }
+
     public void IntakeOff() {
         Intake.setPower(NO_POWER);
     }
