@@ -1,10 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -17,18 +17,17 @@ public class Thing {
     public final DcMotor Intake;
     public final DcMotor Turret;
     private final Gamepad Driver1;
-    private final Servo Hood;
    // private final Gamepad Driver2;
     private final Telemetry telemetry;
 
-    private final Servo servoLeft;
-    private final Servo servoRight;
+//    private final Servo servoLeft;
+//    private final Servo servoRight;
 
     // Servo position constants
-    private static final double VERTICAL = 1.0;
-    private static final double HORIZONTAL = 0.5;
+//    private static final double VERTICAL = 1.0;
+//    private static final double HORIZONTAL = 0.5;
 
-    public Thing(HardwareMap opMode) {
+    public Thing(OpMode opMode) {
         Driver1 = opMode.gamepad1;
        // Driver2 = opMode.gamepad2;
         telemetry = opMode.telemetry;
@@ -44,13 +43,13 @@ public class Thing {
         Turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
-        servoRight = hardwareMap.get(Servo.class, "servoRight");
-        servoLeft.setDirection(Servo.Direction.FORWARD);
-        servoRight.setDirection(Servo.Direction.REVERSE);
-        // Default position
-        servoLeft.setPosition(VERTICAL);
-        servoRight.setPosition(VERTICAL);
+//        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
+//        servoRight = hardwareMap.get(Servo.class, "servoRight");
+//        servoLeft.setDirection(Servo.Direction.FORWARD);
+//        servoRight.setDirection(Servo.Direction.REVERSE);
+//        // Default position
+//        servoLeft.setPosition(VERTICAL);
+//        servoRight.setPosition(VERTICAL);
 
     }
 
@@ -74,20 +73,20 @@ public class Thing {
         }
 
         // --- Hood Control ---
-        if (Driver1.left_trigger > 0.5) {
-            servoLeft.setPosition(VERTICAL);
-            servoRight.setPosition(VERTICAL);
-        } else if (Driver1.right_trigger > 0.5) {
-            servoLeft.setPosition(HORIZONTAL);
-            servoRight.setPosition(HORIZONTAL);
-        }
+//        if (Driver1.left_trigger > 0.5) {
+//            servoLeft.setPosition(VERTICAL);
+//            servoRight.setPosition(VERTICAL);
+//        } else if (Driver1.right_trigger > 0.5) {
+//            servoLeft.setPosition(HORIZONTAL);
+//            servoRight.setPosition(HORIZONTAL);
+//        }
 
 
         // Optional telemetry feedback
         telemetry.addData("Shooter Power", Turret.getPower());
         telemetry.addData("Intake Power", Intake.getPower());
-        telemetry.addData("Servo Left Pos", Hood.getPosition());
-        telemetry.addData("Servo Right Pos", Hood.getPosition());
+//        telemetry.addData("Servo Left Pos", Hood.getPower());
+//        telemetry.addData("Servo Right Pos", Hood.getPower());
         telemetry.update();
     }
     public void IntakeOn() {
