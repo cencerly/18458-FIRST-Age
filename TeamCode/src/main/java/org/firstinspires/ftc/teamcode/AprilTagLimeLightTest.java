@@ -19,7 +19,11 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
     private Limelight3A limelight;
     private IMU imu;
 
-    public Thing thing;
+    static final double TICKS_PER_DEGREE = 10.0;
+    static final double TX_DEADBAND = 0.5;
+    int turretTarget = 0;
+
+        public Thing thing;
 
     @Override
     public void init() {
@@ -49,10 +53,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
             double tx = llResult.getTx();
 
-            int currentPos = thing.Turret.getCurrentPosition();
-            int targetPos = currentPos + (int) (tx);
+            // Only adjust target if error is meaningful
+            if (Math.abs(tx) > TX_DEADBAND) {
+                turretTarget += (int) (tx * TICKS_PER_DEGREE);
+            }
 
-            thing.Turret.setTargetPosition(targetPos);
+            thing.Turret.setTargetPosition(turretTarget);
             thing.Turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
             double power = Math.abs(kP * tx);
@@ -60,8 +66,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
             thing.Turret.setPower(power);
 
-            telemetry.addData("Turret Pos", currentPos);
-            telemetry.addData("Target Pos", targetPos);
+            telemetry.addData("Turret Pos", thing.Turret.getCurrentPosition());
+            telemetry.addData("Target Pos", turretTarget);
             telemetry.addData("Tx", tx);
         }
     }}
