@@ -10,6 +10,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -18,6 +19,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
     public class AprilTagLimeLightTest extends OpMode {
     private Limelight3A limelight;
     private IMU imu;
+    HardwareMap hardwareMap;
 
     static final double TICKS_PER_DEGREE = 10.0;
     static final double TX_DEADBAND = 0.5;
@@ -53,18 +55,12 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
             double tx = llResult.getTx();
 
-            // Only adjust target if error is meaningful
             if (Math.abs(tx) > TX_DEADBAND) {
                 turretTarget += (int) (tx * TICKS_PER_DEGREE);
             }
 
             thing.Turret.setTargetPosition(turretTarget);
             thing.Turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            double power = Math.abs(kP * tx);
-            power = Math.min(power, 0.4);
-
-            thing.Turret.setPower(power);
 
             telemetry.addData("Turret Pos", thing.Turret.getCurrentPosition());
             telemetry.addData("Target Pos", turretTarget);
