@@ -8,9 +8,9 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 public class TeleOop extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        DT dt= new DT(this);
-        Thing thing = new Thing(this);
+        DT dt = new DT(this);
         Shooter shooter = new Shooter(this);
+        Thing thing = new Thing(this);
 
         waitForStart();
         while (opModeIsActive()) {

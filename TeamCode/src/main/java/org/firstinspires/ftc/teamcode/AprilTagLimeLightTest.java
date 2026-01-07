@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
 import static org.firstinspires.ftc.teamcode.Shooter.kP;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
@@ -8,6 +9,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
@@ -22,7 +24,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
     @Override
     public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        this.thing = new Thing(hardwareMap);
+        this.thing = new Thing(opMode);
         limelight.pipelineSwitch(8); //24(Blue)
         imu = hardwareMap.get(IMU.class, "imu");
         RevHubOrientationOnRobot revHubOrientationOnRobot = new RevHubOrientationOnRobot(RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
@@ -43,23 +45,24 @@ import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
         YawPitchRollAngles orientation = imu.getRobotYawPitchRollAngles();
         limelight.updateRobotOrientation(orientation.getYaw());
         LLResult llResult = limelight.getLatestResult();
-        if (llResult != null && llResult.isValid()){
-            telemetry.addData("Tx", llResult.getTx());
+        if (llResult != null && llResult.isValid()) {
+
             double tx = llResult.getTx();
 
-            if (Math.abs(tx) <.5) {
-                thing.Turret.setPower(0);
-            }
-            else  {
-                double turnPower = kP * tx;
-                turnPower = Math.max(-0.4, Math.min(0.4, turnPower));
+            int currentPos = thing.Turret.getCurrentPosition();
+            int targetPos = currentPos + (int) (tx);
 
-                thing.Turret.setPower(turnPower);
-            }
+            thing.Turret.setTargetPosition(targetPos);
+            thing.Turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            telemetry.addData("Ty", llResult.getTy());
-            telemetry.addData("Ta", llResult.getTa());
-            telemetry.addData("Tx", llResult.getTx());
+            double power = Math.abs(kP * tx);
+            power = Math.min(power, 0.4);
+
+            thing.Turret.setPower(power);
+
+            telemetry.addData("Turret Pos", currentPos);
+            telemetry.addData("Target Pos", targetPos);
+            telemetry.addData("Tx", tx);
         }
-    }
-    }
+    }}
+
