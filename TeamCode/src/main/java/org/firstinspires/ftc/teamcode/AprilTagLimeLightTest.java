@@ -16,7 +16,7 @@ public class AprilTagLimeLightTest extends OpMode {
     private IMU imu;
     private AThing thing;
 
-    // === PD TUNING CONSTANTS ===
+    //  TUNING CONSTANTS
     private static final double kP = 0.025;
     private static final double kD = 0.003;
 
@@ -87,7 +87,7 @@ public class AprilTagLimeLightTest extends OpMode {
             telemetry.addData("Turret Power", thing.Turret.getPower());
 
         } else {
-            // No target → stop turret
+            // No target -> stop turret
             thing.Turret.setPower(0);
             previousError = 0;
         }
