@@ -45,7 +45,7 @@ public final class Auto extends LinearOpMode {
                     //score1
 
                     drive.actionBuilder(beginPose)
-                            .splineToLinearHeading(new Pose2d(-28, 26, Math.toRadians(135)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(28, 26, Math.toRadians(135)), Math.toRadians(180))
                             .build());
 
             sleep(300);

@@ -17,12 +17,8 @@ public class MEh {
                 .setConstraints(60, 60, Math.toRadians(180), Math.toRadians(180), 12)
                 .setDimensions(13.41339, 14.33071)
                 .build();
-        myBot.runAction(myBot.getDrive().actionBuilder(new Pose2d(65, 15, Math.toRadians(90)))
 
-                .splineToLinearHeading(new Pose2d( 36, 32,Math.toRadians(90)),Math.toRadians(90))
-                .splineToConstantHeading(new Vector2d( 36, 63), Math.toRadians(90))
 
-                .build());
 
         meepMeep.setBackground(MeepMeep.Background.FIELD_DECODE_JUICE_DARK)
                 .setDarkMode(true)

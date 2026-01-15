@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
 
+import com.acmerobotics.dashboard.config.Config;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
@@ -9,6 +10,7 @@ import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
 
+@Config
 @Autonomous
 public class AprilTagLimeLightTest extends OpMode {
 
@@ -17,8 +19,8 @@ public class AprilTagLimeLightTest extends OpMode {
     private AThing thing;
 
     //  TUNING CONSTANTS
-    private static final double kP = 0.056;
-    private static final double kD = 0.073;
+    public static final double kP = 0.056;
+    public static final double kD = 0.001;
 
     private static final double MAX_POWER = 10;
     private static final double TX_DEADBAND = 5; // degrees
