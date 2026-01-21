@@ -7,36 +7,38 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.RoadRunner.Turret;
 
-@TeleOp(name = "Simple Turret TeleOp")
+@TeleOp(name = "Turret TeleOp")
 public class SimpleTurretTeleOp extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        // Initialize
+        // Initialize drive system
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-        Turret turret = new Turret(hardwareMap, drive);
 
-        // Set target to basket position (adjust these coordinates for your field)
-        turret.setTargetPosition(-64, 60);
+        // Initialize turret - SET YOUR ALLIANCE HERE
+        Turret turret = new Turret(hardwareMap, drive, Turret.Alliance.BLUE);
 
-        boolean turretEnabled = false;
+        // Turret tracking mode
+        boolean turretEnabled = true; // Start with tracking ON
         boolean lastA = false;
+
+        // Alliance selection
+        boolean lastB = false;
 
         waitForStart();
 
         while (opModeIsActive()) {
-            // Update localization
+            // Update robot localization
             drive.updatePoseEstimate();
 
-            // Drive with left stick and right stick
+            // Drive control: left stick for translation, right stick X for rotation
             drive.setDrivePowers(new PoseVelocity2d(
                     new Vector2d(
                             -gamepad1.left_stick_y,
-                            gamepad1.left_stick_x
+                            -gamepad1.left_stick_x
                     ),
-                    gamepad1.right_stick_x
+                    -gamepad1.right_stick_x
             ));
 
             // Toggle turret tracking with A button
@@ -49,18 +51,50 @@ public class SimpleTurretTeleOp extends LinearOpMode {
             }
             lastA = currentA;
 
-            // Turret tracks target only when enabled
+            // Toggle alliance with B button
+            boolean currentB = gamepad1.b;
+            if (currentB && !lastB) {
+                if (turret.getAlliance() == Turret.Alliance.BLUE) {
+                    turret.setAlliance(Turret.Alliance.RED);
+                } else {
+                    turret.setAlliance(Turret.Alliance.BLUE);
+                }
+            }
+            lastB = currentB;
+
+            // Continuous turret tracking when enabled
             if (turretEnabled) {
                 turret.update();
             }
 
-            // Simple telemetry
+            // Telemetry
             Pose2d pose = drive.localizer.getPose();
-            telemetry.addData("Turret Tracking", turretEnabled ? "ON" : "OFF");
-            telemetry.addData("X", pose.position.x);
-            telemetry.addData("Y", pose.position.y);
-            telemetry.addData("Heading", Math.toDegrees(pose.heading.toDouble()));
-            telemetry.addData("Turret Angle", turret.getTurretAngleDeg());
+            Vector2d targetGoal = turret.getTargetGoal();
+
+            telemetry.addLine("=== TURRET STATUS ===");
+            telemetry.addData("Tracking", turretEnabled ? "ENABLED" : "DISABLED");
+            telemetry.addData("Alliance", turret.getAlliance());
+            telemetry.addData("Turret Angle", "%.1f°", turret.getTurretAngleDeg());
+            telemetry.addData("Distance to Goal", "%.1f inches", turret.getDistanceToTarget());
+            telemetry.addData("Aimed", turret.isAimedAtTarget(3.0) ? "YES ✓" : "NO");
+            telemetry.addLine();
+
+            telemetry.addLine("=== ROADRUNNER LOCALIZATION ===");
+            telemetry.addData("Robot X", "%.2f", pose.position.x);
+            telemetry.addData("Robot Y", "%.2f", pose.position.y);
+            telemetry.addData("Robot Heading", "%.1f°", Math.toDegrees(pose.heading.toDouble()));
+            telemetry.addLine();
+
+            telemetry.addLine("=== TARGET GOAL ===");
+            telemetry.addData("Goal X", "%.1f", targetGoal.x);
+            telemetry.addData("Goal Y", "%.1f", targetGoal.y);
+            telemetry.addData("Delta X", "%.1f", targetGoal.x - pose.position.x);
+            telemetry.addData("Delta Y", "%.1f", targetGoal.y - pose.position.y);
+            telemetry.addLine();
+
+            telemetry.addLine("=== CONTROLS ===");
+            telemetry.addData("[A]", "Toggle Tracking");
+            telemetry.addData("[B]", "Switch Alliance");
             telemetry.update();
         }
     }

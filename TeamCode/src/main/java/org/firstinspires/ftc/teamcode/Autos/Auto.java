@@ -27,16 +27,13 @@ public final class Auto extends LinearOpMode {
         Pose2d Pos5 = new Pose2d(-11, 29, Math.toRadians(90));
         Pose2d Pos6 = new Pose2d(-11, 45, Math.toRadians(90));
 
-
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         Shooter shooter = new Shooter(this);
         Thing intake = new Thing(this);
 
-
         while (!opModeIsActive() && !isStopRequested()) {
   //add stuff you need for init
         }
-
         waitForStart();
 
         if (opModeIsActive()) {

@@ -17,13 +17,13 @@ public class AprilTagLimeLightTest extends OpMode {
     private AThing thing;
 
     //  TUNING CONSTANTS
-    private static final double kP = 0.025;
-    private static final double kD = 0.003;
+    private static final double kP = 0.056;
+    private static final double kD = 0.073;
 
-    private static final double MAX_POWER = 0.3;
-    private static final double TX_DEADBAND = 0.25; // degrees
+    private static final double MAX_POWER = 10;
+    private static final double TX_DEADBAND = 5; // degrees
 
-    private double previousError = 0;
+//
 
     @Override
     public void init() {
@@ -65,17 +65,13 @@ public class AprilTagLimeLightTest extends OpMode {
 
             double tx = result.getTx(); // degrees error
 
-            //  DEADBAND
             if (Math.abs(tx) < TX_DEADBAND) {
                 thing.Turret.setPower(0);
-                previousError = 0;
             } else {
                 // NEGATIVE fixes direction
                 double error = -tx;
-                double derivative = error - previousError;
 
-                double power = (kP * error) + (kD * derivative);
-                previousError = error;
+                double power = (kP * error) + (kD * error);
 
                 // Clamp power
                 power = Math.max(-MAX_POWER, Math.min(MAX_POWER, power));
@@ -87,9 +83,7 @@ public class AprilTagLimeLightTest extends OpMode {
             telemetry.addData("Turret Power", thing.Turret.getPower());
 
         } else {
-            // No target -> stop turret
             thing.Turret.setPower(0);
-            previousError = 0;
         }
 
         telemetry.update();
