@@ -17,7 +17,7 @@ public class SimpleTurretTeleOp extends LinearOpMode {
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
 
         // Initialize turret - SET YOUR ALLIANCE HERE
-        Turret turret = new Turret(hardwareMap, drive, Turret.Alliance.BLUE);
+        TurretRed turret = new TurretRed(hardwareMap, drive, TurretRed.Alliance.BLUE);
 
         // Turret tracking mode
         boolean turretEnabled = true; // Start with tracking ON
@@ -54,10 +54,10 @@ public class SimpleTurretTeleOp extends LinearOpMode {
             // Toggle alliance with B button
             boolean currentB = gamepad1.b;
             if (currentB && !lastB) {
-                if (turret.getAlliance() == Turret.Alliance.BLUE) {
-                    turret.setAlliance(Turret.Alliance.RED);
+                if (turret.getAlliance() == TurretRed.Alliance.BLUE) {
+                    turret.setAlliance(TurretRed.Alliance.RED);
                 } else {
-                    turret.setAlliance(Turret.Alliance.BLUE);
+                    turret.setAlliance(TurretRed.Alliance.BLUE);
                 }
             }
             lastB = currentB;

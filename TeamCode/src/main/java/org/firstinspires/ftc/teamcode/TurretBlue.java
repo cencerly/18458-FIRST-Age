@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
-public class Turret {
+public class TurretBlue {
 
     private DcMotorEx turret;
     private MecanumDrive drive;
@@ -22,8 +22,8 @@ public class Turret {
     static final double TICKS_PER_DEG = (TICKS_PER_REV * GEAR_RATIO) / 360.0;
 
     // Alliance goal positions
-    private static final Vector2d RED_GOAL = new Vector2d(-60, 60);
-    private static final Vector2d BLUE_GOAL = new Vector2d(-60, -60);
+    private static final Vector2d RED_GOAL = new Vector2d(-64, 60);
+    private static final Vector2d BLUE_GOAL = new Vector2d(-64, -60);
 
     // Alliance selection
     public enum Alliance {
@@ -34,7 +34,7 @@ public class Turret {
     private Alliance currentAlliance;
     private Vector2d targetGoal;
 
-    public Turret(HardwareMap hw, MecanumDrive drive, Alliance alliance) {
+    public TurretBlue(HardwareMap hw, MecanumDrive drive, Alliance alliance) {
         this.drive = drive;
         this.currentAlliance = alliance;
 
@@ -89,7 +89,7 @@ public class Turret {
      */
     public void setAlliance(Alliance alliance) {
         this.currentAlliance = alliance;
-        this.targetGoal = (alliance == Alliance.RED) ? RED_GOAL : BLUE_GOAL;
+        this.targetGoal = (alliance == Alliance.BLUE) ? RED_GOAL : BLUE_GOAL;
     }
 
     /**

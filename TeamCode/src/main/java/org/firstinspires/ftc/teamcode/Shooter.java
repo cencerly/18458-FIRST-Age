@@ -18,7 +18,7 @@ public class Shooter {
     private PIDController velController;
     public DcMotorEx shooter, shooter2;
 
-    public double targetRPM = 5000;
+    public double targetRPM = 2300;
     public double ticksPerSecond;
     private final Gamepad Driver1;
 

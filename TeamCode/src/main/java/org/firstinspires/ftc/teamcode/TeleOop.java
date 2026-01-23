@@ -15,10 +15,10 @@ public class TeleOop extends LinearOpMode {
         Thing thing = new Thing(this);
 
         // Initialize RoadRunner drive and Turret
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, Math.toRadians(0)));
 
         // SET YOUR ALLIANCE HERE: Turret.Alliance.RED or Turret.Alliance.BLUE
-        Turret turret = new Turret(hardwareMap, drive, Turret.Alliance.RED);
+        TurretRed turret = new TurretRed(hardwareMap, drive, TurretRed.Alliance.RED);
 
         boolean turretEnabled = false;
         boolean lastA = false;
@@ -49,6 +49,10 @@ public class TeleOop extends LinearOpMode {
                 turret.update();
             }
 
+            // Get shooter data
+            double ticksPerSecond = shooter.shooter.getVelocity();
+            double currentRPM = (ticksPerSecond / 28.0) * 60.0;
+
             // Turret telemetry
             Pose2d pose = drive.localizer.getPose();
             telemetry.addLine("=== TURRET ===");
@@ -58,11 +62,25 @@ public class TeleOop extends LinearOpMode {
             telemetry.addData("Distance", "%.1f in", turret.getDistanceToTarget());
             telemetry.addData("Aimed", turret.isAimedAtTarget(3.0) ? "✓" : "X");
             telemetry.addLine();
+
+            // Shooter telemetry
+            telemetry.addLine("=== SHOOTER ===");
+            telemetry.addData("Current RPM", "%.0f", currentRPM);
+            telemetry.addData("Target RPM", "%.0f", shooter.targetRPM);
+            telemetry.addData("Shooter Power", "%.3f", shooter.shooter.getPower());
+            telemetry.addLine();
+
+            // Robot pose telemetry
+            telemetry.addLine("=== ROBOT POSE ===");
             telemetry.addData("Robot X", "%.1f", pose.position.x);
             telemetry.addData("Robot Y", "%.1f", pose.position.y);
             telemetry.addData("Heading", "%.1f°", Math.toDegrees(pose.heading.toDouble()));
             telemetry.addLine();
+
             telemetry.addData("[A]", "Toggle Turret Tracking");
+            telemetry.addData("[LB]", "Run Shooter");
+            telemetry.addData("[X]", "Reverse Shooter");
+
             telemetry.update();
         }
     }
