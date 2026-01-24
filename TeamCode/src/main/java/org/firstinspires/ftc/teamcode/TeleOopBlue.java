@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
 @TeleOp
-public class TeleOopRed extends LinearOpMode {
+public class TeleOopBlue extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         DT dt = new DT(this);
@@ -15,10 +15,10 @@ public class TeleOopRed extends LinearOpMode {
         Thing thing = new Thing(this);
 
         // Initialize RoadRunner drive and Turret
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-28, 26, Math.toRadians(225)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-28, -26, Math.toRadians(225)));
 
         // SET YOUR ALLIANCE HERE: Turret.Alliance.RED or Turret.Alliance.BLUE
-        TurretRed turret = new TurretRed(hardwareMap, drive, TurretRed.Alliance.RED);
+        TurretRed turret = new TurretRed(hardwareMap, drive, TurretRed.Alliance.BLUE);
 
         boolean turretEnabled = false;
         boolean lastA = false;

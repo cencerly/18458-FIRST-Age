@@ -14,7 +14,7 @@ public class Hood extends OpMode {
     private static final double VERTICAL = 1.0;
     private static final double HORIZONTAL = 0.5;
 
-    public Hood(TeleOopRed teleOop) {
+    public Hood(TeleOopBlue teleOop) {
     }
 
     public static Servo getPower() {

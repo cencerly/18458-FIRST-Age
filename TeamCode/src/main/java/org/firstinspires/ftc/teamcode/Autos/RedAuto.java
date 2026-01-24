@@ -17,14 +17,14 @@ public final class RedAuto extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(-63, -40, Math.toRadians(360));
-        Pose2d Score = new Pose2d(-28, -26, Math.toRadians(315));
-        Pose2d Pos1 = new Pose2d(36, -22, Math.toRadians(270));
-        Pose2d Pos2 = new Pose2d(36, -50, Math.toRadians(270));
-        Pose2d Pos3 = new Pose2d(10, -24, Math.toRadians(270));
-        Pose2d Pos4 = new Pose2d(10, -50, Math.toRadians(270));
-        Pose2d Pos5 = new Pose2d(-13, -24, Math.toRadians(270));
-        Pose2d Pos6 = new Pose2d(-13, -50, Math.toRadians(270));
+        Pose2d beginPose = new Pose2d(-63, 40, Math.toRadians(180));
+        Pose2d Score = new Pose2d(-28, 26, Math.toRadians(135));
+        Pose2d Pos1 = new Pose2d(36, 22, Math.toRadians(90));
+        Pose2d Pos2 = new Pose2d(36, 50, Math.toRadians(90));
+        Pose2d Pos3 = new Pose2d(10, 24, Math.toRadians(90));
+        Pose2d Pos4 = new Pose2d(10, 50, Math.toRadians(90));
+        Pose2d Pos5 = new Pose2d(-13, 24, Math.toRadians(90));
+        Pose2d Pos6 = new Pose2d(-13, 50, Math.toRadians(90));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         Shooter shooter = new Shooter(this);
@@ -42,7 +42,7 @@ public final class RedAuto extends LinearOpMode {
             // Score 1 - from start position
             Actions.runBlocking(
                     drive.actionBuilder(beginPose)
-                            .setTangent(Math.toRadians(355))
+                            .setTangent(Math.toRadians(335))
                             .splineToLinearHeading(new Pose2d(-28, 26, Math.toRadians(135)), Math.toRadians(315))
                             .build());
             sleep(300);
