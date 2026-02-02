@@ -14,12 +14,12 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Shooter {
 
-    public static double kP = 0.005, kI = 0.0001, kD = 0.0001, kF = 0.00016;
+    public static double kP = 0.00021, kI = 0.00, kD = 0.015, kF = 0;
     private PIDController velController;
     public DcMotorEx shooter, shooter2;
 
-    public double targetRPM = 172;
-    public double ntargetRPM = -160;
+    public double targetRPM = 3775;
+    public double ntargetRPM = -3900;
     public double ticksPerSecond;
     private final Gamepad Driver1;
 
@@ -59,15 +59,14 @@ public class Shooter {
 
     public void runShooter() {
 
-        ticksPerSecond = shooter.getVelocity();
+        ticksPerSecond = shooter2.getVelocity();
 
         double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
         velController.setPID(kP, kI, kD);
 
         double pid = velController.calculate(currentRPM, targetRPM);
-        double ff = kF * targetRPM;
-        double power = pid + ff;
+        double power = pid;
         shooter.setPower(power);
         shooter2.setPower(power);
 
@@ -77,11 +76,11 @@ public class Shooter {
         telemetry.update();
     }
 
-    public void reverseShooter() {
+    /*public void reversehooter() {
 
         ticksPerSecond = shooter.getVelocity();
 
-        double currentRPM = (ticksPerSecond / TICKS_PER_REV) * -60.0;
+        double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
         velController.setPID(kP, kI, kD);
 
@@ -95,6 +94,11 @@ public class Shooter {
         telemetry.addData("Reverse Target RPM", ntargetRPM);
         telemetry.addData("Power", power);
         telemetry.update();
+    }*/
+
+    public void reverseShooter() {
+        shooter.setPower(-1);
+        shooter2.setPower(-1);
     }
 
     public void directSet(double p) {

@@ -35,7 +35,7 @@ public class TeleOopRed extends LinearOpMode {
             shooter.teleOp();
 
             // Toggle turret tracking with A button
-            boolean currentA = gamepad1.a;
+            boolean currentA = gamepad1.right_stick_button;
             if (currentA && !lastA) {
                 turretEnabled = !turretEnabled;
                 if (!turretEnabled) {

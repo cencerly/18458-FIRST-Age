@@ -1,6 +1,10 @@
 package org.firstinspires.ftc.teamcode;
 
+import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.opMode;
+
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -9,40 +13,44 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
-public class DT {
-    private final DcMotor leftFront, leftBack, rightFront, rightBack;
-    private final IMU imu;
-    private final Gamepad driver;
+@TeleOp
+public class DT extends LinearOpMode {
+    @Override
+    public void runOpMode() throws InterruptedException {}
 
-    private double speed = 1.0; // Default speed
+        private final DcMotor leftFront, leftBack, rightFront, rightBack;
+        private final IMU imu;
+        private final Gamepad driver;
+
+        private double speed = 1.0; // Default speed
 
     public DT(OpMode opMode) {
-        driver = opMode.gamepad1;
-        HardwareMap hardwareMap = opMode.hardwareMap;
+            driver = opMode.gamepad1;
+            HardwareMap hardwareMap = opMode.hardwareMap;
 
-        imu = hardwareMap.get(IMU.class, "imu");
-        leftFront = hardwareMap.get(DcMotor.class, "frontLeft");
-        leftBack = hardwareMap.get(DcMotor.class, "backLeft");
-        rightFront = hardwareMap.get(DcMotor.class, "frontRight");
-        rightBack = hardwareMap.get(DcMotor.class, "backRight");
+            imu = hardwareMap.get(IMU.class, "imu");
+            leftFront = hardwareMap.get(DcMotor.class, "frontLeft");
+            leftBack = hardwareMap.get(DcMotor.class, "backLeft");
+            rightFront = hardwareMap.get(DcMotor.class, "frontRight");
+            rightBack = hardwareMap.get(DcMotor.class, "backRight");
 
 
-        leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
-        leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-        setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
+            setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
-                RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                RevHubOrientationOnRobot.UsbFacingDirection.UP));
-        imu.initialize(parameters);
-    }
+            IMU.Parameters parameters = new IMU.Parameters(new RevHubOrientationOnRobot(
+                    RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
+                    RevHubOrientationOnRobot.UsbFacingDirection.UP));
+            imu.initialize(parameters);
+        }
 
-    public void setZeroPowerBehavior(DcMotor.ZeroPowerBehavior behavior) {
-        leftFront.setZeroPowerBehavior(behavior);
-        leftBack.setZeroPowerBehavior(behavior);
-        rightFront.setZeroPowerBehavior(behavior);
-        rightBack.setZeroPowerBehavior(behavior);
-    }
+        public void setZeroPowerBehavior (DcMotor.ZeroPowerBehavior behavior){
+            leftFront.setZeroPowerBehavior(behavior);
+            leftBack.setZeroPowerBehavior(behavior);
+            rightFront.setZeroPowerBehavior(behavior);
+            rightBack.setZeroPowerBehavior(behavior);
+        }
 
     public void setSpeed(double speed) {
         this.speed = speed;

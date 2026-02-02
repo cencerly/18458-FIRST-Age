@@ -16,7 +16,7 @@ public final class BluePark extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Pose2d begin = new Pose2d(60, 10, Math.toRadians(180));
-        Pose2d park = new Pose2d(40, 10, Math.toRadians(180));
+        Pose2d park = new Pose2d(36, 10, Math.toRadians(180));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, begin);
         Shooter shooter = new Shooter(this);
@@ -33,6 +33,6 @@ public final class BluePark extends LinearOpMode {
             // Score 1 - from start position
             Actions.runBlocking(
                     drive.actionBuilder(begin)
-                            .strafeTo(new Vector2d(40, 10))
+                            .strafeTo(new Vector2d(36, 10))
                             .build());
         }}}

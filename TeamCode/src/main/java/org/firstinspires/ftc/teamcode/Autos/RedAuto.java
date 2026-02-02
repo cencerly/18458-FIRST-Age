@@ -19,7 +19,7 @@ public final class RedAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(-63, 40, Math.toRadians(180));
-        Pose2d Score = new Pose2d(-28, 26, Math.toRadians(132));
+        Pose2d Score = new Pose2d(-30, 28, Math.toRadians(138));
         Pose2d Pos1 = new Pose2d(34, 18, Math.toRadians(90));
         Pose2d Pos2 = new Pose2d(34, 50, Math.toRadians(90));
         Pose2d Pos3 = new Pose2d(10, 20, Math.toRadians(90));
@@ -44,7 +44,7 @@ public final class RedAuto extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(beginPose)
                             .setTangent(Math.toRadians(335))
-                            .splineToLinearHeading(new Pose2d(-28, 26, Math.toRadians(132)), Math.toRadians(315))
+                            .splineToLinearHeading(new Pose2d(-30, 28, Math.toRadians(138)), Math.toRadians(315))
                             .build());
             sleep(300);
             intake.IntakeOn();
