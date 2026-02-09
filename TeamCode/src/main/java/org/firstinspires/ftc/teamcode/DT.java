@@ -29,10 +29,10 @@ public class DT extends LinearOpMode {
             HardwareMap hardwareMap = opMode.hardwareMap;
 
             imu = hardwareMap.get(IMU.class, "imu");
-            leftFront = hardwareMap.get(DcMotor.class, "frontLeft");
-            leftBack = hardwareMap.get(DcMotor.class, "backLeft");
-            rightFront = hardwareMap.get(DcMotor.class, "frontRight");
-            rightBack = hardwareMap.get(DcMotor.class, "backRight");
+            leftFront = hardwareMap.get(DcMotor.class, "leftFront");
+            leftBack = hardwareMap.get(DcMotor.class, "leftBack");
+            rightFront = hardwareMap.get(DcMotor.class, "rightFront");
+            rightBack = hardwareMap.get(DcMotor.class, "rightBack");
 
 
             leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
