@@ -18,7 +18,7 @@ public class TestForPedro extends OpMode {
     private Follower follower;
     private Timer pathTimer, opModeTimer;
     Shooter shooter;
-    Thing thing;
+    Thing intake;
 
     public enum PathState {
         preload,
@@ -33,10 +33,12 @@ public class TestForPedro extends OpMode {
     private PathChain preload;
 
     public void buildPath() {
+        shooter.runShooter();
         preload = follower.pathBuilder()
                 .addPath(new BezierLine(startPose, score))
                 .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(45))
                 .build();
+        intake.IntakeOn();
     }
 
     public void statePathUpdate() {
@@ -47,7 +49,7 @@ public class TestForPedro extends OpMode {
                 break;
             case scorePosition:
                 if (!follower.isBusy()) {
-                    thing.IntakeOn();
+                    intake.IntakeOn();
                   shooter.runShooter();
                 }
                 break;
@@ -66,7 +68,7 @@ public class TestForPedro extends OpMode {
         opModeTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
         shooter = new Shooter(this);
-        thing = new Thing(this);
+        intake = new Thing(this);
 
         buildPath();
         follower.setPose(startPose);

@@ -26,6 +26,7 @@ public class AThing {
         Turret.setDirection(DcMotorSimple.Direction.REVERSE);
         Turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
     }
 
     // ---------- Intake ----------

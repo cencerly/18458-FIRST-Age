@@ -30,9 +30,9 @@ public class TeleTele extends OpMode {
         // Drive controls - field-centric
         follower.setTeleOpDrive(
                 -gamepad1.left_stick_y,   // Forward/backward
-                -gamepad1.left_stick_x,   // Strafe left/right
-                -gamepad1.right_stick_x,  // Rotate
-                true                       // Field-centric (true) or robot-centric (false)
+                gamepad1.left_stick_x,   // Strafe left/right
+                gamepad1.right_stick_x,  // Rotate
+                false                       //Field-centric (true) or robot-centric (false)
         );
 
         // Update follower

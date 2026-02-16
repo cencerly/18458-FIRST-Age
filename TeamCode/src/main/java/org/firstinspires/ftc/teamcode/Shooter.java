@@ -14,11 +14,11 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Shooter {
 
-    public static double kP = 0.00021, kI = 0.00, kD = 0.015, kF = 0;
+    public static double kP = 0.00023, kI = 0.00, kD = 0.027, kF = 0;
     private PIDController velController;
     public DcMotorEx shooter, shooter2;
 
-    public double targetRPM = 3775;
+    public double targetRPM = 3450;
     public double ticksPerSecond;
     private final Gamepad Driver1;
 
@@ -47,7 +47,8 @@ public class Shooter {
 
     public void teleOp() {
         if (Driver1.x) {
-            reverseShooter();}
+            reverseShooter();
+        }
 
          else if (Driver1.left_bumper) {
         runShooter();}
