@@ -84,6 +84,7 @@ public final class Red15 extends LinearOpMode {
                             .setTangent(270)
                             .splineToLinearHeading(new Pose2d(4, 60, Math.toRadians(90)), Math.toRadians(110))
                             .splineToLinearHeading(new Pose2d(10, 59, Math.toRadians(115)), Math.toRadians(270))
+                            .strafeTo(new Vector2d(15, 58))
                             .build());
             intake.IntakeOn();
             shooter.reverseShooter();
