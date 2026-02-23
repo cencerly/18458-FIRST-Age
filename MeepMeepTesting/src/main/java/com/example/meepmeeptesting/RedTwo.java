@@ -33,7 +33,6 @@ public class RedTwo {
                 .setTangent(0)
                 .splineToLinearHeading(new Pose2d(4, 53, Math.toRadians(90)), Math.toRadians(110))
                         .splineToLinearHeading(new Pose2d(10, 59, Math.toRadians(115)), Math.toRadians(90))
-                        .strafeTo(new Vector2d (12, 60))
 
                 .setTangent(225)
                 .splineToLinearHeading(new Pose2d(-30, 28, Math.toRadians(90)), Math.toRadians(180))

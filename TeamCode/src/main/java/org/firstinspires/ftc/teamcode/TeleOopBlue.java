@@ -13,6 +13,7 @@ public class TeleOopBlue extends LinearOpMode {
         DT dt = new DT(this);
         Shooter shooter = new Shooter(this);
         Thing thing = new Thing(this);
+        Hood hood = new Hood(this);
 
         // Initialize RoadRunner drive and Turret
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-28, -26, Math.toRadians(225)));
@@ -33,6 +34,7 @@ public class TeleOopBlue extends LinearOpMode {
             dt.teleop();
             thing.teleOp();
             shooter.teleOp();
+            hood.teleop();
 
             // Toggle turret tracking with A button
             boolean currentA = gamepad1.right_stick_button;
@@ -67,6 +69,7 @@ public class TeleOopBlue extends LinearOpMode {
             telemetry.addLine("=== SHOOTER ===");
             telemetry.addData("Current RPM", "%.0f", currentRPM);
             telemetry.addData("Target RPM", "%.0f", shooter.targetRPM);
+            telemetry.addData("FarTargetRPM", "%.0f", shooter.farTargetRPM);
             telemetry.addData("Shooter Power", "%.3f", shooter.shooter.getPower());
             telemetry.addLine();
 

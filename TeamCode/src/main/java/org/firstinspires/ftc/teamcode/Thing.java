@@ -25,12 +25,11 @@ public class Thing {
    // private final Gamepad Driver2;
     private final Telemetry telemetry;
 
-//    private final Servo servoLeft;
-//    private final Servo servoRight;
+    private final Servo servoLeft;
+    private final Servo servoRight;
 
-    // Servo position constants
-//    private static final double VERTICAL = 1.0;
-//    private static final double HORIZONTAL = 0.5;
+    private static final double VERTICAL = 1.0;
+    private static final double HORIZONTAL = 0.5;
 
     public Thing(OpMode opMode) {
         Driver1 = opMode.gamepad1;
@@ -50,13 +49,11 @@ public class Thing {
 
         TransferStopper = hardwareMap.get(Servo.class, "transferStopper");
 
-//        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
-//        servoRight = hardwareMap.get(Servo.class, "servoRight");
-//        servoLeft.setDirection(Servo.Direction.FORWARD);
-//        servoRight.setDirection(Servo.Direction.REVERSE);
-//        // Default position
-//        servoLeft.setPosition(VERTICAL);
-//        servoRight.setPosition(VERTICAL);
+        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
+        servoRight = hardwareMap.get(Servo.class, "servoRight");
+        servoLeft.setDirection(Servo.Direction.FORWARD);
+        servoRight.setDirection(Servo.Direction.REVERSE);
+        // Default position
 
     }
 
@@ -88,13 +85,6 @@ public class Thing {
 
 
         // --- Hood Control ---
-//        if (Driver1.left_trigger > 0.5) {
-//            servoLeft.setPosition(VERTICAL);
-//            servoRight.setPosition(VERTICAL);
-//        } else if (Driver1.right_trigger > 0.5) {
-//            servoLeft.setPosition(HORIZONTAL);
-//            servoRight.setPosition(HORIZONTAL);
-//        }
 
 
         // Optional telemetry feedback
@@ -122,7 +112,7 @@ public class Thing {
         Turret.setPower(NO_POWER);
     }
     public void StopperOn(){
-        TransferStopper.setPosition(OPEN);
+        TransferStopper.setPosition(CLOSE);
     }
     public void StopperOff() {
         TransferStopper.setPosition(CLOSE);

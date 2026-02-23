@@ -6,6 +6,7 @@ import com.acmerobotics.dashboard.config.Config;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
+import com.pedropathing.math.Vector;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -23,9 +24,9 @@ public final class Red15 extends LinearOpMode {
 
         Pose2d beginPose = new Pose2d(-63, 40, Math.toRadians(180));
         Pose2d score = new Pose2d(-30, 28, Math.toRadians(90));
-        Pose2d intake1 = new Pose2d(5, 43, Math.toRadians(90));
-        Pose2d intake2 = new Pose2d(4, 60, Math.toRadians(90));
-        Pose2d intake3 = new Pose2d(35, 50, Math.toRadians(90));
+        Pose2d intake1 = new Pose2d(3, 43, Math.toRadians(90));
+        Pose2d intake2 = new Pose2d(4, 55, Math.toRadians(90));
+        Pose2d intake3 = new Pose2d(27, 50, Math.toRadians(90));
         Pose2d intake4 = new Pose2d(-14, 48, Math.toRadians(90));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
@@ -40,7 +41,7 @@ public final class Red15 extends LinearOpMode {
 
         if (opModeIsActive()) {
             shooter.runShooter();
-            turret.Turret.setTargetPosition(135);
+            turret.Turret.setTargetPosition(133);
             turret.Turret.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             turret.setTurretPower(1);
 
@@ -57,12 +58,12 @@ public final class Red15 extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(score)
                             .setTangent(320)
-                            .splineToLinearHeading(new Pose2d(4, 31, Math.toRadians(90)), Math.toRadians(30))
-                            .splineToLinearHeading(new Pose2d(5, 43, Math.toRadians(90)), Math.toRadians(90))
+                            .splineToLinearHeading(new Pose2d(3, 31, Math.toRadians(90)), Math.toRadians(30))
+                            .splineToLinearHeading(new Pose2d(3, 43, Math.toRadians(90)), Math.toRadians(90))
                             .build());
             intake.IntakeReverse();
             shooter.reverseShooter();
-            sleep(40);
+            sleep(90);
             shooter.stopShooter();
             intake.IntakeOff();
             sleep(50);
@@ -82,7 +83,7 @@ public final class Red15 extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(score)
                             .setTangent(270)
-                            .splineToLinearHeading(new Pose2d(4, 60, Math.toRadians(90)), Math.toRadians(110))
+                            .splineToLinearHeading(new Pose2d(4, 50, Math.toRadians(90)), Math.toRadians(110))
                             .splineToLinearHeading(new Pose2d(10, 59, Math.toRadians(115)), Math.toRadians(270))
                             .build());
             intake.IntakeOn();
@@ -95,24 +96,26 @@ public final class Red15 extends LinearOpMode {
 
             Actions.runBlocking(
                     drive.actionBuilder(intake2)
-            .setTangent(270)
-                    .splineToLinearHeading(new Pose2d(-30, 28, Math.toRadians(90)), Math.toRadians(270))
+            .setTangent(225)
+                    .splineToLinearHeading(new Pose2d(-30, 28, Math.toRadians(90)), Math.toRadians(180))
                             .build());
+            sleep(50);
             intake.IntakeOn();
             sleep(1500);
-            intake.IntakeReverse();
-            shooter.reverseShooter();
-            sleep(50);
-            shooter.runShooter();
-            intake.IntakeOn();
-
+            shooter.stopShooter();
 
             Actions.runBlocking(
                     drive.actionBuilder(score)
                             .setTangent(0)
-                            .splineToLinearHeading(new Pose2d(30, 30, Math.toRadians(90)), Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(35, 50, Math.toRadians(90)), Math.toRadians(90))
+                            .splineToLinearHeading(new Pose2d(24, 30, Math.toRadians(90)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(24, 50, Math.toRadians(90)), Math.toRadians(90))
                             .build());
+            intake.IntakeReverse();
+            shooter.reverseShooter();
+            sleep(40);
+            shooter.stopShooter();
+            intake.IntakeOff();
+            sleep(50);
             shooter.runShooter();
 
             Actions.runBlocking(

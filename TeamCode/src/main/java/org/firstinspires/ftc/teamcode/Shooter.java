@@ -19,6 +19,7 @@ public class Shooter {
     public DcMotorEx shooter, shooter2;
 
     public double targetRPM = 3450;
+    public double farTargetRPM = 8000;
     public double ticksPerSecond;
     private final Gamepad Driver1;
 
@@ -46,17 +47,28 @@ public class Shooter {
     }
 
     public void teleOp() {
-        if (Driver1.x) {
-            reverseShooter();
-        }
 
-         else if (Driver1.left_bumper) {
-        runShooter();}
+    }
 
-         else {
-        stopShooter();
-        }}
+    public void runFarShooter() {
 
+        ticksPerSecond = shooter2.getVelocity();
+
+        double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
+
+        velController.setPID(kP, kI, kD);
+
+        double pid = velController.calculate(currentRPM, farTargetRPM);
+        double power = pid;
+        shooter.setPower(power);
+        shooter2.setPower(power);
+
+        telemetry.addData("Current RPM", currentRPM);
+        telemetry.addData("TargetRPM", targetRPM);
+        telemetry.addData("FarTarget RPM", farTargetRPM);
+        telemetry.addData("Power", power);
+        telemetry.update();
+    }
     public void runShooter() {
 
         ticksPerSecond = shooter2.getVelocity();
@@ -70,8 +82,8 @@ public class Shooter {
         shooter.setPower(power);
         shooter2.setPower(power);
 
-        telemetry.addData("Current RPM", currentRPM);
-        telemetry.addData("Target RPM", targetRPM);
+        telemetry.addData("CloseCurrent RPM", currentRPM);
+        telemetry.addData("CloseTarget RPM", targetRPM);
         telemetry.addData("Power", power);
         telemetry.update();
     }
