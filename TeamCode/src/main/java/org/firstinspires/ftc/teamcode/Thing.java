@@ -15,12 +15,11 @@ public class Thing {
     public static final double NO_POWER = 0.0;
     public static final double INTAKEPOWER = 1;
     public static final double NINTAKEPOWER =-1;
-    public static final double OPEN = 20.0;
+    public static final double OPEN = -4.0;
     public static final double CLOSE = 0.0;
 
     public final DcMotor Intake;
     public final DcMotor Turret;
-    public final Servo TransferStopper;
     private final Gamepad Driver1;
    // private final Gamepad Driver2;
     private final Telemetry telemetry;
@@ -46,8 +45,6 @@ public class Thing {
         Turret.setDirection(DcMotorSimple.Direction.REVERSE);
         Turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-
-        TransferStopper = hardwareMap.get(Servo.class, "transferStopper");
 
         servoLeft = hardwareMap.get(Servo.class, "servoLeft");
         servoRight = hardwareMap.get(Servo.class, "servoRight");
@@ -76,13 +73,6 @@ public class Thing {
             Intake.setPower(NO_POWER);
         }
 
-        if (Driver1.right_stick_button) {
-            TransferStopper.setPosition(OPEN);
-        }
-        else if (Driver1.left_stick_button) {
-            TransferStopper.setPosition(CLOSE);
-        }
-
 
         // --- Hood Control ---
 
@@ -90,7 +80,6 @@ public class Thing {
         // Optional telemetry feedback
         telemetry.addData("Shooter Power", Turret.getPower());
         telemetry.addData("Intake Power", Intake.getPower());
-        telemetry.addData("Stopper", TransferStopper.getPosition());
 //        telemetry.addData("Servo Left Pos", Hood.getPower());
 //        telemetry.addData("Servo Right Pos", Hood.getPower());
         telemetry.update();
@@ -111,10 +100,5 @@ public class Thing {
     public void ShooterOff() {
         Turret.setPower(NO_POWER);
     }
-    public void StopperOn(){
-        TransferStopper.setPosition(CLOSE);
-    }
-    public void StopperOff() {
-        TransferStopper.setPosition(CLOSE);
-    }
+
 }

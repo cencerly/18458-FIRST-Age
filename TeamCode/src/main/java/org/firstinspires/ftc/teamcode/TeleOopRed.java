@@ -14,6 +14,7 @@ public class TeleOopRed extends LinearOpMode {
         Shooter shooter = new Shooter(this);
         Thing thing = new Thing(this);
         Hood hood = new Hood (this);
+        TransferStopper stopper = new TransferStopper(this);
 
         // Initialize RoadRunner drive and Turret
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-28, 26, Math.toRadians(225)));
@@ -35,6 +36,7 @@ public class TeleOopRed extends LinearOpMode {
             thing.teleOp();
             shooter.teleOp();
             hood.teleop();
+            stopper.teleop();
 
 
 

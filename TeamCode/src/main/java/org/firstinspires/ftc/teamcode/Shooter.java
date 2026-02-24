@@ -14,12 +14,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Shooter {
 
-    public static double kP = 0.00023, kI = 0.00, kD = 0.027, kF = 0;
+    public static double kP = 0.00021, kI = 0.00, kD = 1, kF = 0.03;
+    public static double kP2 = 0.00023, kI2 = 0.00, kD2 = 0.027, kF2 = 0;
+
     private PIDController velController;
     public DcMotorEx shooter, shooter2;
 
-    public double targetRPM = 3450;
-    public double farTargetRPM = 8000;
+    public double targetRPM = 3000;
+    public double farTargetRPM = 6000;
     public double ticksPerSecond;
     private final Gamepad Driver1;
 
@@ -36,8 +38,8 @@ public class Shooter {
         shooter = hardwareMap.get(DcMotorEx.class, "shooter1");
         shooter2 = hardwareMap.get(DcMotorEx.class, "shooter2");
 
-        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
-        shooter2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        shooter2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
         shooter2.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -56,7 +58,7 @@ public class Shooter {
 
         double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
-        velController.setPID(kP, kI, kD);
+        velController.setPID(kP2, kI2, kD2);
 
         double pid = velController.calculate(currentRPM, farTargetRPM);
         double power = pid;

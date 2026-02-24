@@ -18,7 +18,7 @@ public class Hood{
     Telemetry telemetry;
 
     // Servo position constants
-    public static double VERTICAL = 1.0;
+    public static double VERTICAL = 0.75;
     public static double HORIZONTAL = 0.5;
 
     public Hood(OpMode opMode){
