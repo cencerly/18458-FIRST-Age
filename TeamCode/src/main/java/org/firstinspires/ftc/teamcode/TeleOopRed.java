@@ -16,10 +16,8 @@ public class TeleOopRed extends LinearOpMode {
         Hood hood = new Hood (this);
         TransferStopper stopper = new TransferStopper(this);
 
-        // Initialize RoadRunner drive and Turret
         MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-28, 26, Math.toRadians(225)));
 
-        // SET YOUR ALLIANCE HERE: Turret.Alliance.RED or Turret.Alliance.BLUE
         TurretRed turret = new TurretRed(hardwareMap, drive, TurretRed.Alliance.RED);
 
         boolean turretEnabled = false;
@@ -28,10 +26,8 @@ public class TeleOopRed extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            // Update RoadRunner localization
             drive.updatePoseEstimate();
 
-            // Existing subsystems
             dt.teleop();
             thing.teleOp();
             shooter.teleOp();
@@ -39,8 +35,6 @@ public class TeleOopRed extends LinearOpMode {
             stopper.teleop();
 
 
-
-            // Toggle turret tracking with A button
             boolean currentA = gamepad1.right_stick_button;
             if (currentA && !lastA) {
                 turretEnabled = !turretEnabled;
@@ -55,11 +49,9 @@ public class TeleOopRed extends LinearOpMode {
                 turret.update();
             }
 
-            // Get shooter data
             double ticksPerSecond = shooter.shooter.getVelocity();
             double currentRPM = (ticksPerSecond / 28.0) * 60.0;
 
-            // Turret telemetry
             Pose2d pose = drive.localizer.getPose();
             telemetry.addLine("=== TURRET ===");
             telemetry.addData("Tracking", turretEnabled ? "ON" : "OFF");
@@ -69,7 +61,6 @@ public class TeleOopRed extends LinearOpMode {
             telemetry.addData("Aimed", turret.isAimedAtTarget(3.0) ? "✓" : "X");
             telemetry.addLine();
 
-            // Shooter telemetry
             telemetry.addLine("=== SHOOTER ===");
             telemetry.addData("Current RPM", "%.0f", currentRPM);
             telemetry.addData("Target RPM", "%.0f", shooter.targetRPM);
@@ -77,7 +68,6 @@ public class TeleOopRed extends LinearOpMode {
             telemetry.addData("Shooter Power", "%.3f", shooter.shooter.getPower());
             telemetry.addLine();
 
-            // Robot pose telemetry
             telemetry.addLine("=== ROBOT POSE ===");
             telemetry.addData("Robot X", "%.1f", pose.position.x);
             telemetry.addData("Robot Y", "%.1f", pose.position.y);

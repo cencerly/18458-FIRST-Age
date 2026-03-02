@@ -24,8 +24,8 @@ public final class Red15 extends LinearOpMode {
 
         Pose2d beginPose = new Pose2d(-63, 40, Math.toRadians(180));
         Pose2d score = new Pose2d(-30, 28, Math.toRadians(90));
-        Pose2d intake1 = new Pose2d(3, 43, Math.toRadians(90));
-        Pose2d intake2 = new Pose2d(4, 55, Math.toRadians(90));
+        Pose2d intake1 = new Pose2d(10, 43, Math.toRadians(90));
+        Pose2d intake2 = new Pose2d(10, 55, Math.toRadians(90));
         Pose2d intake3 = new Pose2d(27, 50, Math.toRadians(90));
         Pose2d intake4 = new Pose2d(-14, 48, Math.toRadians(90));
 

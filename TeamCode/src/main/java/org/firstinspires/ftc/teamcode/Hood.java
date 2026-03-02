@@ -59,6 +59,9 @@ public class Hood{
         } else {
             shooter.stopShooter();
         }
+        if (Driver1.x){
+            shooter.reverseShooter();
+        }
         leftTriggerPrevPressed = Driver1.left_trigger > 0.5;
     }
 }

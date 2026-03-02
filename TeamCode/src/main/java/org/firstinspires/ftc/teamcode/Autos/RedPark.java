@@ -15,8 +15,8 @@ import org.firstinspires.ftc.teamcode.Shooter;
 public final class RedPark extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-        Pose2d begin = new Pose2d(60, -10, Math.toRadians(180));
-        Pose2d park = new Pose2d(36, -10, Math.toRadians(180));
+        Pose2d begin = new Pose2d(60, 0, Math.toRadians(180));
+        Pose2d park = new Pose2d(60, -10, Math.toRadians(180));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, begin);
         Shooter shooter = new Shooter(this);
