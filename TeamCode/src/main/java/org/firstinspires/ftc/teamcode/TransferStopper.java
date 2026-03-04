@@ -23,12 +23,4 @@ public class TransferStopper {
         stop = hardwareMap.get(Servo.class, "transferStopper");
         stop.setDirection(Servo.Direction.FORWARD);
     }
-    public void teleop() {
-        if (Driver1.right_bumper) {
-            stop.setPosition(open);
-        }
-        if (Driver1.left_trigger > 0.1) {
-            stop.setPosition(close);
-        }
-    }
 }

@@ -21,11 +21,11 @@ public final class RedAuto extends LinearOpMode {
         Pose2d StartScore = new Pose2d(-30, 30, Math.toRadians(135));
         Pose2d Score = new Pose2d(-30, 28, Math.toRadians(130));
         Pose2d Pos1 = new Pose2d(34, 24, Math.toRadians(90));
-        Pose2d Pos2 = new Pose2d(34, 50, Math.toRadians(90));
-        Pose2d Pos3 = new Pose2d(8, 20, Math.toRadians(90));
-        Pose2d Pos4 = new Pose2d(8, 53, Math.toRadians(90));
+        Pose2d Pos2 = new Pose2d(34, 56, Math.toRadians(90));
+        Pose2d Pos3 = new Pose2d(10, 20, Math.toRadians(90));
+        Pose2d Pos4 = new Pose2d(10, 53, Math.toRadians(90));
         Pose2d Pos5 = new Pose2d(-14, 24, Math.toRadians(90));
-        Pose2d Pos6 = new Pose2d(-14, 48, Math.toRadians(90));
+        Pose2d Pos6 = new Pose2d(-14, 51, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         Shooter shooter = new Shooter(this);
         Thing intake = new Thing(this);
@@ -44,11 +44,11 @@ public final class RedAuto extends LinearOpMode {
                     drive.actionBuilder(beginPose)
 
                             .setTangent(Math.toRadians(335))
-                            .splineToLinearHeading(new Pose2d(-30, 29, Math.toRadians(135)), Math.toRadians(315))
+                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(315))
                             .build());
-            sleep(300);
+            sleep(100);
             intake.IntakeOn();
-            sleep(2000);
+            sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
 
@@ -58,26 +58,26 @@ public final class RedAuto extends LinearOpMode {
                             .setTangent(Math.toRadians(0))
                             .splineToLinearHeading(new Pose2d(-14, 24, Math.toRadians(90)), Math.toRadians(0))
                             .build());
+            shooter.reverseShooter();
             intake.IntakeOn();
             Actions.runBlocking(
                     drive.actionBuilder(Pos5)
-                            .strafeTo(new Vector2d(-14, 49))
+                            .strafeTo(new Vector2d(-14, 56))
                             .build());
             intake.IntakeReverse();
-            shooter.reverseShooter();
-            sleep(80);
+            sleep(100);
             shooter.stopShooter();
             intake.IntakeOff();
-            sleep(300);
+            sleep(100);
             shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos6)
                             .setTangent(Math.toRadians(225))
-                            .splineToLinearHeading(new Pose2d(-28, 26, Math.toRadians(130)), Math.toRadians(225))
+                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(130)), Math.toRadians(225))
                             .build());
             sleep(300);
             intake.IntakeOn();
-            sleep(2000);
+            sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
 
@@ -85,35 +85,36 @@ public final class RedAuto extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(Score)
                             .setTangent(Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(8, 20, Math.toRadians(90)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(10, 20, Math.toRadians(90)), Math.toRadians(0))
                             .build());
             intake.IntakeOn();
+            shooter.reverseShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos3)
-                            .strafeTo(new Vector2d(8, 53))
+                            .strafeTo(new Vector2d(10, 53))
                             .build());
             intake.IntakeReverse();
-
-            shooter.reverseShooter();
-            sleep(70);
-            intake.IntakeOff();
+            sleep(100);
             shooter.stopShooter();
+            intake.IntakeOff();
+            sleep(100);
+            shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos4)
                             .strafeTo(new Vector2d(4, 48))
                             .strafeTo(new Vector2d(4, 55))
                             .build());
-            shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos4)
                             .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(-28, 26, Math.toRadians(130)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(130)), Math.toRadians(180))
                             .build());
             sleep(300);
             intake.IntakeOn();
-            sleep(2000);
+            sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
+            shooter.reverseShooter();
 
             // Pair 1: Pos1 -> Pos2
             Actions.runBlocking(
@@ -127,18 +128,18 @@ public final class RedAuto extends LinearOpMode {
                             .strafeTo(new Vector2d(34, 50))
                             .build());
             intake.IntakeReverse();
-            sleep(70);
+            sleep(20);
             intake.IntakeOff();
-            sleep(300);
+            sleep(100);
             shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos2)
                             .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(-28, 26, Math.toRadians(135)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(180))
                             .build());
             sleep(300);
             intake.IntakeOn();
-            sleep(2000);
+            sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
         }

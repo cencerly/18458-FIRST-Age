@@ -25,7 +25,6 @@ public class Shooter {
     public double ticksPerSecond;
     private final Gamepad Driver1;
 
-    VoltageSensor voltageSensor;
     Telemetry telemetry;
 
     private static final double TICKS_PER_REV = 28;
@@ -42,8 +41,6 @@ public class Shooter {
         shooter2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
         shooter2.setDirection(DcMotorSimple.Direction.REVERSE);
-
-        voltageSensor = hardwareMap.voltageSensor.iterator().next();
 
         velController = new PIDController(kP, kI, kD);
     }

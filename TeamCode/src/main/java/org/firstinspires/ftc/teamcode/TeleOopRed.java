@@ -8,6 +8,7 @@ import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
 @TeleOp
 public class TeleOopRed extends LinearOpMode {
+
     @Override
     public void runOpMode() throws InterruptedException {
         DT dt = new DT(this);
@@ -16,7 +17,7 @@ public class TeleOopRed extends LinearOpMode {
         Hood hood = new Hood (this);
         TransferStopper stopper = new TransferStopper(this);
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-28, 26, Math.toRadians(225)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-28, 26, Math.toRadians(135)));
 
         TurretRed turret = new TurretRed(hardwareMap, drive, TurretRed.Alliance.RED);
 
@@ -32,8 +33,6 @@ public class TeleOopRed extends LinearOpMode {
             thing.teleOp();
             shooter.teleOp();
             hood.teleop();
-            stopper.teleop();
-
 
             boolean currentA = gamepad1.right_stick_button;
             if (currentA && !lastA) {

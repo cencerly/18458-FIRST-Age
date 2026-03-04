@@ -89,7 +89,7 @@ public class TurretRed {
      */
     public void setAlliance(Alliance alliance) {
         this.currentAlliance = alliance;
-        this.targetGoal = (alliance == Alliance.RED) ? RED_GOAL : BLUE_GOAL;
+        this.targetGoal = (alliance == Alliance.BLUE) ? RED_GOAL : BLUE_GOAL;
     }
 
     /**

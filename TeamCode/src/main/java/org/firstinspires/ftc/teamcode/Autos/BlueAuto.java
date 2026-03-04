@@ -18,13 +18,13 @@ public final class BlueAuto extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(-63, -40, Math.toRadians(180));
-        Pose2d Score = new Pose2d(-28, -26, Math.toRadians(215));
-        Pose2d Pos1 = new Pose2d(33, -20, Math.toRadians(270));
-        Pose2d Pos2 = new Pose2d(33, -53, Math.toRadians(270));
-        Pose2d Pos3 = new Pose2d(6, -24, Math.toRadians(270));
-        Pose2d Pos4 = new Pose2d(6, -50, Math.toRadians(270));
-        Pose2d Pos5 = new Pose2d(-17, -24, Math.toRadians(270));
-        Pose2d Pos6 = new Pose2d(-17, -50, Math.toRadians(270));
+        Pose2d Score = new Pose2d(-28, -26, Math.toRadians(217));
+        Pose2d Pos1 = new Pose2d(31, -20, Math.toRadians(270));
+        Pose2d Pos2 = new Pose2d(31, -53, Math.toRadians(270));
+        Pose2d Pos3 = new Pose2d(2, -24, Math.toRadians(270));
+        Pose2d Pos4 = new Pose2d(2, -50, Math.toRadians(270));
+        Pose2d Pos5 = new Pose2d(-15, -24, Math.toRadians(270));
+        Pose2d Pos6 = new Pose2d(-15, -50, Math.toRadians(270));
 
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         Shooter shooter = new Shooter(this);
@@ -43,11 +43,11 @@ public final class BlueAuto extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(beginPose)
                             .setTangent(Math.toRadians(5))
-                            .splineToLinearHeading(new Pose2d(-28, -26, Math.toRadians(215)), Math.toRadians(45))
+                            .splineToLinearHeading(new Pose2d(-28, -26, Math.toRadians(217)), Math.toRadians(45))
                             .build());
-            sleep(300);
+            sleep(250);
             intake.IntakeOn();
-            sleep(2000);
+            sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
 
@@ -55,28 +55,28 @@ public final class BlueAuto extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(Score)
                             .setTangent(Math.toRadians(360))
-                            .splineToLinearHeading(new Pose2d(-17, -24, Math.toRadians(270)), Math.toRadians(360))
+                            .splineToLinearHeading(new Pose2d(-15, -24, Math.toRadians(270)), Math.toRadians(360))
                             .build());
             intake.IntakeOn();
+            shooter.reverseShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos5)
-                            .strafeTo(new Vector2d(-17, -50))
+                            .strafeTo(new Vector2d(-15, -50))
                             .build());
             intake.IntakeReverse();
-            shooter.reverseShooter();
             sleep(40);
             shooter.stopShooter();
             intake.IntakeOff();
-            sleep(300);
+            sleep(450);
             shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos6)
                             .setTangent(Math.toRadians(135))
                             .splineToLinearHeading(new Pose2d(-28, -26, Math.toRadians(225)), Math.toRadians(135))
                             .build());
-            sleep(300);
+            sleep(250);
             intake.IntakeOn();
-            sleep(2000);
+            sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
 
@@ -84,32 +84,32 @@ public final class BlueAuto extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(Score)
                             .setTangent(Math.toRadians(360))
-                            .splineToLinearHeading(new Pose2d(6, -20, Math.toRadians(270)), Math.toRadians(360))
+                            .splineToLinearHeading(new Pose2d(2, -20, Math.toRadians(270)), Math.toRadians(360))
                             .build());
             intake.IntakeOn();
+            shooter.reverseShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos3)
-                            .strafeTo(new Vector2d(6, -53))
+                            .strafeTo(new Vector2d(2, -53))
                             .build());
             intake.IntakeReverse();
-            shooter.reverseShooter();
             sleep(70);
             shooter.stopShooter();
             intake.IntakeOff();
+            shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos4)
                             .strafeTo(new Vector2d(4, -50))
                             .strafeTo(new Vector2d(4, -60))
                             .build());
-            shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos4)
                             .setTangent(Math.toRadians(90))
                             .splineToLinearHeading(new Pose2d(-28, -26, Math.toRadians(225)), Math.toRadians(180))
                             .build());
-            sleep(300);
+            sleep(250);
             intake.IntakeOn();
-            sleep(2000);
+            sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
 
@@ -117,28 +117,28 @@ public final class BlueAuto extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(Score)
                             .setTangent(Math.toRadians(360))
-                            .splineToLinearHeading(new Pose2d(33, -20, Math.toRadians(270)), Math.toRadians(360))
+                            .splineToLinearHeading(new Pose2d(35, -20, Math.toRadians(270)), Math.toRadians(360))
                             .build());
             intake.IntakeOn();
+            shooter.reverseShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos1)
-                            .strafeTo(new Vector2d(33, -50))
+                            .strafeTo(new Vector2d(35, -50))
                             .build());
             intake.IntakeReverse();
-            shooter.reverseShooter();
             sleep(70);
             intake.IntakeOff();
             shooter.stopShooter();
-            sleep(300);
+            sleep(100);
             shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos2)
                             .setTangent(Math.toRadians(90))
                             .splineToLinearHeading(new Pose2d(-28, -26, Math.toRadians(225)), Math.toRadians(180))
                             .build());
-            sleep(300);
+            sleep(250);
             intake.IntakeOn();
-            sleep(2000);
+            sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
         }

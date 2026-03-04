@@ -18,8 +18,8 @@ public class Hood{
     Telemetry telemetry;
 
     // Servo position constants
-    public static double VERTICAL = 0.75;
-    public static double HORIZONTAL = 0.5;
+    public static double VERTICAL = .35;
+    public static double HORIZONTAL = 0;
 
     public Hood(OpMode opMode){
         HardwareMap hardwareMap = opMode.hardwareMap;
@@ -63,5 +63,6 @@ public class Hood{
             shooter.reverseShooter();
         }
         leftTriggerPrevPressed = Driver1.left_trigger > 0.5;
+        telemetry.addData("IS HOOD UP?", HoodUp);
     }
 }
