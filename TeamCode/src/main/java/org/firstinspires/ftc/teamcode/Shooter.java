@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode;
 
+import android.health.connect.datatypes.units.Velocity;
+
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -48,12 +50,11 @@ public class Shooter {
     public void teleOp() {
 
     }
+    public double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
     public void runFarShooter() {
 
         ticksPerSecond = shooter2.getVelocity();
-
-        double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
         velController.setPID(kP2, kI2, kD2);
 

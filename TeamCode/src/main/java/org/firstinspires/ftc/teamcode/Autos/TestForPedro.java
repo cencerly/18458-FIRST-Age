@@ -44,28 +44,28 @@ public class TestForPedro extends OpMode {
 
                 new Pose(103.000, 102.000)
         )
-        ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(0))
+        ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(45))
 
                 .build();
 
         Intake1 = follower.pathBuilder().addPath(
                         new BezierCurve(
                                 new Pose(103.000, 102.000),
-                                new Pose(86.000, 50.000),
-                                new Pose(106.000, 60.000),
-                                new Pose(130.000, 60.000)
+                                new Pose(86.000, 47.000),
+                                new Pose(106.000, 47.000),
+                                new Pose(130.000, 47.000)
                         )
-                ).setConstantHeadingInterpolation(Math.toRadians(0))
+                ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
 
                 .build();
 
         Score1 = follower.pathBuilder().addPath(
                         new BezierCurve(
-                                new Pose(130.000, 60.000),
-                                new Pose(89.000, 53.000),
+                                new Pose(130.000, 47.000),
+                                new Pose(80, 50),
                                 new Pose(103.000, 102.000)
                         )
-                ).setConstantHeadingInterpolation(Math.toRadians(0))
+                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
 
                 .build();
 
@@ -166,27 +166,37 @@ public class TestForPedro extends OpMode {
     public void statePathUpdate() {
         switch (pathState) {
             case PRELOAD:
-                shooter.runShooter();
+                if (pathTimer.getElapsedTimeSeconds() >= .1) {
+                    shooter.runShooter();
 
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() < 0.1) {
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 1.8) {
                     intake.IntakeOn();
                 }
-                    if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 1.3) {
+                    if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2.4) {
                         shooter.stopShooter();
                         follower.followPath(paths.Intake1, true);
                         setPathState(PathState.INTAKE1);
-                }
+                }}
                     break;
             case INTAKE1:
+                    if (pathTimer.getElapsedTimeSeconds() >= .1) {
+                        intake.IntakeOn();
+                        shooter.reverseShooter();
+                    }
                 if (!follower.isBusy()) {
-                    intake.IntakeOn();
                     follower.followPath(paths.Score1, true);
                     setPathState(PathState.SCORE1);
                 }
                 break;
             case SCORE1:
+                if (follower.isBusy()) {
+                    shooter.runShooter();
+                }
                 if (!follower.isBusy()) {
-                    intake.IntakeOff();
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 1.4) {
+                    shooter.stopShooter();
                     follower.followPath(paths.Intake2, true);
                     setPathState(PathState.INTAKE2);
                 }

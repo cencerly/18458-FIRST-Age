@@ -19,13 +19,15 @@ public final class RedAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         Pose2d beginPose = new Pose2d(-63, 40, Math.toRadians(180));
         Pose2d StartScore = new Pose2d(-30, 30, Math.toRadians(135));
-        Pose2d Score = new Pose2d(-30, 28, Math.toRadians(130));
-        Pose2d Pos1 = new Pose2d(34, 24, Math.toRadians(90));
-        Pose2d Pos2 = new Pose2d(34, 56, Math.toRadians(90));
+        Pose2d Score = new Pose2d(-30, 30, Math.toRadians(130));
+        Pose2d TwoScore = new Pose2d(-30, 30, Math.toRadians(135));
+        Pose2d Pos1 = new Pose2d(33, 24, Math.toRadians(90));
+        Pose2d Pos2 = new Pose2d(33, 56, Math.toRadians(90));
         Pose2d Pos3 = new Pose2d(10, 20, Math.toRadians(90));
         Pose2d Pos4 = new Pose2d(10, 53, Math.toRadians(90));
         Pose2d Pos5 = new Pose2d(-14, 24, Math.toRadians(90));
         Pose2d Pos6 = new Pose2d(-14, 51, Math.toRadians(90));
+        Pose2d Pos7 = new Pose2d(-10, 19, Math.toRadians(90));
         MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
         Shooter shooter = new Shooter(this);
         Thing intake = new Thing(this);
@@ -46,7 +48,7 @@ public final class RedAuto extends LinearOpMode {
                             .setTangent(Math.toRadians(335))
                             .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(315))
                             .build());
-            sleep(100);
+            sleep(75);
             intake.IntakeOn();
             sleep(1000);
             shooter.stopShooter();
@@ -65,7 +67,7 @@ public final class RedAuto extends LinearOpMode {
                             .strafeTo(new Vector2d(-14, 56))
                             .build());
             intake.IntakeReverse();
-            sleep(100);
+            sleep(40);
             shooter.stopShooter();
             intake.IntakeOff();
             sleep(100);
@@ -73,7 +75,7 @@ public final class RedAuto extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(Pos6)
                             .setTangent(Math.toRadians(225))
-                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(130)), Math.toRadians(225))
+                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(225))
                             .build());
             sleep(300);
             intake.IntakeOn();
@@ -91,25 +93,25 @@ public final class RedAuto extends LinearOpMode {
             shooter.reverseShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos3)
-                            .strafeTo(new Vector2d(10, 53))
+                            .strafeTo(new Vector2d(10, 51))
                             .build());
             intake.IntakeReverse();
-            sleep(100);
+            sleep(60);
             shooter.stopShooter();
             intake.IntakeOff();
             sleep(100);
             shooter.runShooter();
             Actions.runBlocking(
                     drive.actionBuilder(Pos4)
-                            .strafeTo(new Vector2d(4, 48))
+                            .strafeTo(new Vector2d(4, 44))
                             .strafeTo(new Vector2d(4, 55))
                             .build());
             Actions.runBlocking(
                     drive.actionBuilder(Pos4)
                             .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(130)), Math.toRadians(180))
+                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(180))
                             .build());
-            sleep(300);
+            sleep(80);
             intake.IntakeOn();
             sleep(1000);
             shooter.stopShooter();
@@ -118,17 +120,17 @@ public final class RedAuto extends LinearOpMode {
 
             // Pair 1: Pos1 -> Pos2
             Actions.runBlocking(
-                    drive.actionBuilder(Score)
+                    drive.actionBuilder(TwoScore)
                             .setTangent(Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(34, 24, Math.toRadians(90)), Math.toRadians(0))
+                            .splineToLinearHeading(new Pose2d(33, 24, Math.toRadians(90)), Math.toRadians(0))
                             .build());
             intake.IntakeOn();
             Actions.runBlocking(
                     drive.actionBuilder(Pos1)
-                            .strafeTo(new Vector2d(34, 50))
+                            .strafeTo(new Vector2d(33, 56))
                             .build());
             intake.IntakeReverse();
-            sleep(20);
+            sleep(40);
             intake.IntakeOff();
             sleep(100);
             shooter.runShooter();
@@ -137,11 +139,16 @@ public final class RedAuto extends LinearOpMode {
                             .setTangent(Math.toRadians(270))
                             .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(180))
                             .build());
-            sleep(300);
+            sleep(80);
             intake.IntakeOn();
             sleep(1000);
             shooter.stopShooter();
             intake.IntakeOff();
+            Actions.runBlocking(
+                    drive.actionBuilder(Score)
+                            .strafeTo(new Vector2d(20, 24)
+            )
+                            .build());
         }
     }
-}//
+}

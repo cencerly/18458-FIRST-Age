@@ -15,9 +15,8 @@ public class TeleOopRed extends LinearOpMode {
         Shooter shooter = new Shooter(this);
         Thing thing = new Thing(this);
         Hood hood = new Hood (this);
-        TransferStopper stopper = new TransferStopper(this);
 
-        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-28, 26, Math.toRadians(135)));
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(-30, 30, Math.toRadians(135)));
 
         TurretRed turret = new TurretRed(hardwareMap, drive, TurretRed.Alliance.RED);
 
@@ -34,7 +33,7 @@ public class TeleOopRed extends LinearOpMode {
             shooter.teleOp();
             hood.teleop();
 
-            boolean currentA = gamepad1.right_stick_button;
+            boolean currentA = gamepad1.dpad_up;
             if (currentA && !lastA) {
                 turretEnabled = !turretEnabled;
                 if (!turretEnabled) {
