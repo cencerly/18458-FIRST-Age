@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Devices;
 
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.IMU;
 
 import org.firstinspires.ftc.robotcore.external.navigation.YawPitchRollAngles;
+import org.firstinspires.ftc.teamcode.Subsystems.AThing;
 
 @Autonomous
 public class AprilTagLimeLightTest extends OpMode {
@@ -38,14 +39,6 @@ public class AprilTagLimeLightTest extends OpMode {
                 RevHubOrientationOnRobot.UsbFacingDirection.UP
         );
         imu.initialize(new IMU.Parameters(orientation));
-
-        // Turret setup
-        thing.Turret.setZeroPowerBehavior(
-                com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE
-        );
-        thing.Turret.setMode(
-                com.qualcomm.robotcore.hardware.DcMotor.RunMode.RUN_WITHOUT_ENCODER
-        );
     }
 
     @Override
@@ -56,37 +49,7 @@ public class AprilTagLimeLightTest extends OpMode {
     @Override
     public void loop() {
         // Update robot heading for Limelight
-        YawPitchRollAngles angles = imu.getRobotYawPitchRollAngles();
-        limelight.updateRobotOrientation(angles.getYaw());
 
-        LLResult result = limelight.getLatestResult();
-
-        if (result != null && result.isValid()) {
-
-            double tx = result.getTx(); // degrees error
-
-            if (Math.abs(tx) < TX_DEADBAND) {
-                thing.Turret.setPower(0);
-            } else {
-                // NEGATIVE fixes direction
-                double error = -tx;
-
-                double power = (kP * error) + (kD * error);
-
-                // Clamp power
-                power = Math.max(-MAX_POWER, Math.min(MAX_POWER, power));
-
-                thing.Turret.setPower(power);
-            }
-
-            telemetry.addData("tx (deg)", tx);
-            telemetry.addData("Turret Power", thing.Turret.getPower());
-
-        } else {
-            thing.Turret.setPower(0);
-        }
-
-        telemetry.update();
     }
-}
 
+}

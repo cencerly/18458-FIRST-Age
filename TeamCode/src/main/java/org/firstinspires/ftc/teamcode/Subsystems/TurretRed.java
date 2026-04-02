@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.Vector2d;
@@ -9,20 +9,25 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 
-public class TurretBlue {
+public class TurretRed {
 
     private DcMotorEx turret;
     private MecanumDrive drive;
 
-    public static double kP = 0.02;
+    public static double kP = 0.09;
+    public static double kD = 0.025;
+    private double lastError = 0;
     public static double maxPower = 0.5;
+
+    static final double MAX_ANGLE = 200.0;
+    static final double MIN_ANGLE = -139.0;
 
     static final double TICKS_PER_REV = 145.1;
     static final double GEAR_RATIO = 7.0;
     static final double TICKS_PER_DEG = (TICKS_PER_REV * GEAR_RATIO) / 360.0;
 
     // Alliance goal positions
-    private static final Vector2d RED_GOAL = new Vector2d(-64, 60);
+    private static final Vector2d RED_GOAL = new Vector2d(-57, 60);
     private static final Vector2d BLUE_GOAL = new Vector2d(-64, -60);
 
     // Alliance selection
@@ -34,11 +39,14 @@ public class TurretBlue {
     private Alliance currentAlliance;
     private Vector2d targetGoal;
 
-    public TurretBlue(HardwareMap hw, MecanumDrive drive, Alliance alliance) {
+    // Enable state and field angle offset
+    private boolean enabled = false;
+    private double fieldAngleOffset = 0;
+
+    public TurretRed(HardwareMap hw, MecanumDrive drive, Alliance alliance) {
         this.drive = drive;
         this.currentAlliance = alliance;
 
-        // Set the target goal based on alliance
         setAlliance(alliance);
 
         turret = hw.get(DcMotorEx.class, "turret");
@@ -49,39 +57,84 @@ public class TurretBlue {
     }
 
     /**
+     * Enable the turret from any field position
+     * Call this whenever you want to start tracking, even after relocalization
+     */
+    public void enable() {
+        Pose2d robotPose = drive.localizer.getPose();
+        double robotHeadingDeg = Math.toDegrees(robotPose.heading.toDouble());
+
+        // Capture field-relative offset so tracking is correct from any starting position
+        fieldAngleOffset = robotHeadingDeg - (turret.getCurrentPosition() / TICKS_PER_DEG);
+
+        enabled = true;
+        lastError = 0;
+    }
+
+    /**
+     * Disable the turret and stop motor
+     */
+
+    /**
+     * Check if turret is enabled
+     */
+
+    /**
      * Main update loop - call this continuously in your OpMode loop
-     * This automatically aims the turret at the goal based on current robot position
+     * Does nothing if not enabled
      */
     public void update() {
-        // Get live robot pose from RoadRunner
-        Pose2d robotPose = drive.localizer.getPose();
+        if (!enabled) {
+            turret.setPower(0);
+            return;
+        }
 
-        // Get current turret angle relative to robot
+        Pose2d robotPose = drive.localizer.getPose();
         double currentTurretAngle = getTurretAngleDeg();
 
-        // Calculate vector from robot to goal
         double dx = targetGoal.x - robotPose.position.x;
         double dy = targetGoal.y - robotPose.position.y;
 
-        // Calculate field-relative angle to target (in degrees)
         double fieldHeadingToTarget = Math.toDegrees(Math.atan2(dy, dx));
-
-        // Get robot's current heading in degrees
         double robotHeadingDeg = Math.toDegrees(robotPose.heading.toDouble());
 
-        // Calculate required turret angle relative to robot
-        // This is the key: field heading to target minus robot heading
-        double targetTurretAngle = fieldHeadingToTarget - robotHeadingDeg;
+        double error = getError(fieldHeadingToTarget, robotHeadingDeg, currentTurretAngle);
+        double derivative = error - lastError;
+        lastError = error;
 
-        // Normalize angle to [-180, 180] range
-        targetTurretAngle = normalizeAngle(targetTurretAngle);
-
-        // Calculate error and apply proportional control
-        double error = targetTurretAngle - currentTurretAngle;
-        error = normalizeAngle(error); // Normalize error as well
-
-        double power = error * kP;
+        double power = (kP * error) + (kD * derivative);
         turret.setPower(Range.clip(power, -maxPower, maxPower));
+    }
+
+    private double getError(double fieldHeadingToTarget, double robotHeadingDeg, double currentTurretAngle) {
+        double targetTurretAngle = normalizeAngle(fieldHeadingToTarget - robotHeadingDeg);
+
+        // Flip to other side if past limit
+        if (targetTurretAngle > MAX_ANGLE) {
+            targetTurretAngle -= 360;
+        } else if (targetTurretAngle < MIN_ANGLE) {
+            targetTurretAngle += 360;
+        }
+
+        // Clamp target so PID never pushes past the limit
+        targetTurretAngle = Range.clip(targetTurretAngle, MIN_ANGLE, MAX_ANGLE);
+
+        return targetTurretAngle - currentTurretAngle;
+    }
+
+    /**
+     * Get current turret angle in degrees, field-relative
+     */
+    public double getTurretAngleDeg() {
+        return (turret.getCurrentPosition() / TICKS_PER_DEG) + fieldAngleOffset;
+    }
+
+    /**
+     * Check if turret is at a rotation limit
+     */
+    public boolean isAtLimit() {
+        double angle = getTurretAngleDeg();
+        return angle >= MAX_ANGLE || angle <= MIN_ANGLE;
     }
 
     /**
@@ -89,7 +142,7 @@ public class TurretBlue {
      */
     public void setAlliance(Alliance alliance) {
         this.currentAlliance = alliance;
-        this.targetGoal = (alliance == Alliance.BLUE) ? RED_GOAL : BLUE_GOAL;
+        this.targetGoal = (alliance == Alliance.RED) ? RED_GOAL : BLUE_GOAL;
     }
 
     /**
@@ -104,13 +157,6 @@ public class TurretBlue {
      */
     public Alliance getAlliance() {
         return currentAlliance;
-    }
-
-    /**
-     * Get current turret angle in degrees
-     */
-    public double getTurretAngleDeg() {
-        return turret.getCurrentPosition() / TICKS_PER_DEG;
     }
 
     /**

@@ -1,7 +1,6 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
@@ -17,6 +16,7 @@ public class Thing {
     public static final double NINTAKEPOWER =-1;
     public static final double OPEN = -4.0;
     public static final double CLOSE = 0.0;
+    public static final double HALFPOWER = 0.75;
 
     public final DcMotor Intake;
     public final DcMotor Turret;
@@ -73,7 +73,6 @@ public class Thing {
             Intake.setPower(NO_POWER);
         }
 
-
         // --- Hood Control ---
 
 
@@ -90,6 +89,7 @@ public class Thing {
     public void IntakeReverse() {
         Intake.setPower(INTAKEPOWER);
     }
+    public void IntakeSlow() {Intake.setPower(-HALFPOWER);}
 
     public void IntakeOff() {
         Intake.setPower(NO_POWER);

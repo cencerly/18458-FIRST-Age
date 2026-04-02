@@ -1,154 +1,302 @@
 package org.firstinspires.ftc.teamcode.Autos;
 
 import com.acmerobotics.dashboard.config.Config;
-import com.acmerobotics.roadrunner.Pose2d;
-import com.acmerobotics.roadrunner.Vector2d;
-import com.acmerobotics.roadrunner.ftc.Actions;
+import com.pedropathing.follower.Follower;
+import com.pedropathing.geometry.BezierCurve;
+import com.pedropathing.geometry.Pose;
+import com.pedropathing.paths.PathChain;
+import com.pedropathing.geometry.BezierLine;
+import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
-import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.Thing;
-import org.firstinspires.ftc.teamcode.Shooter;
+import com.pedropathing.util.Timer;
+
+import org.firstinspires.ftc.teamcode.PedroPath.Constants;
+import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
+import org.firstinspires.ftc.teamcode.Subsystems.Thing;
 
 @Config
-@Autonomous(name = "RedAuto", group = "Autonomous")
-public final class RedAuto extends LinearOpMode {
+@Autonomous(name = "Test", group = "Autonomous")
+public class RedAuto extends OpMode {
+
+    Limelight3A ll;
+    private Follower follower;
+    private Timer pathTimer, opModeTimer;
+    Shooter shooter;
+    Thing intake;
+    private Paths paths;
+
+    public static class Paths {
+        public PathChain Preload;
+        public PathChain Intake1;
+        public PathChain Score1;
+        public PathChain Intake2;
+        public PathChain Empty;
+        public PathChain Score2;
+        public PathChain Intake3;
+        public PathChain Score3;
+        public PathChain Park;
+
+
+        public Paths(Follower follower) {
+            Preload = follower.pathBuilder().addPath(
+                    new BezierLine(
+                            new Pose(109.112, 135.448),
+                            new Pose(103.000, 102.000)
+        )
+        ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(45))
+
+                .build();
+
+        Intake1 = follower.pathBuilder().addPath(
+                            new BezierCurve(
+                                    new Pose(103.000, 102.000),
+                                    new Pose(96.000, 78.000),
+                                    new Pose(96.000, 83.000),
+                                    new Pose(133.000, 81.000)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+
+                    .build();
+
+            Score1 = follower.pathBuilder().addPath(
+                            new BezierLine(
+                                    new Pose(133.000, 81.000),
+
+                                    new Pose(103.000, 102.000)
+                            )
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(46))
+
+                    .build();
+
+        Intake2 = follower.pathBuilder().addPath(
+                        new BezierCurve(
+                                new Pose(103.000, 102.000),
+                                new Pose(80.000, 47.000),
+                                new Pose(105.000, 47.000),
+                                new Pose(144.500, 47.000)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+
+                .build();
+            Empty = follower.pathBuilder().addPath(
+                            new BezierCurve(
+                                    new Pose(144.000, 47.000),
+                                    new Pose(85.000, 66.000),
+                                    new Pose(140.000, 68.000)
+                            )
+                    ).setConstantHeadingInterpolation(Math.toRadians(0))
+
+                    .build();
+
+        Score2 = follower.pathBuilder().addPath(
+                        new BezierLine(
+                                new Pose(140.500, 68.000),
+                                new Pose(103.000, 102.000)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(48))
+
+                .build();
+
+        Intake3 = follower.pathBuilder().addPath(
+                        new BezierCurve(
+                                new Pose(103.000, 102.000),
+                                new Pose(70.775, 74.586),
+                                new Pose(70.496, 7.652),
+                                new Pose(133.000, 22.000)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+
+                .build();
+
+        Score3 = follower.pathBuilder().addPath(
+                        new BezierLine(
+                                new Pose(133.000, 22.000),
+                                new Pose(103.000, 102.000)
+                        )
+                ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(48))
+
+                .build();
+
+        Park = follower.pathBuilder().addPath(
+                new BezierLine(
+                        new Pose(103.000, 102.000),
+                        new Pose(103.000, 70.000)
+                )
+        ).setConstantHeadingInterpolation(Math.toRadians(45))
+
+            .build();
+    }
+    }
 
     @Override
-    public void runOpMode() throws InterruptedException {
-        Pose2d beginPose = new Pose2d(-63, 40, Math.toRadians(180));
-        Pose2d StartScore = new Pose2d(-30, 30, Math.toRadians(135));
-        Pose2d Score = new Pose2d(-30, 30, Math.toRadians(130));
-        Pose2d TwoScore = new Pose2d(-30, 30, Math.toRadians(135));
-        Pose2d Pos1 = new Pose2d(33, 24, Math.toRadians(90));
-        Pose2d Pos2 = new Pose2d(33, 56, Math.toRadians(90));
-        Pose2d Pos3 = new Pose2d(10, 20, Math.toRadians(90));
-        Pose2d Pos4 = new Pose2d(10, 53, Math.toRadians(90));
-        Pose2d Pos5 = new Pose2d(-14, 24, Math.toRadians(90));
-        Pose2d Pos6 = new Pose2d(-14, 51, Math.toRadians(90));
-        Pose2d Pos7 = new Pose2d(-10, 19, Math.toRadians(90));
-        MecanumDrive drive = new MecanumDrive(hardwareMap, beginPose);
-        Shooter shooter = new Shooter(this);
-        Thing intake = new Thing(this);
+    public void init() {
+        pathTimer = new Timer();
+        opModeTimer = new Timer();
+        follower = Constants.createFollower(hardwareMap);
+        shooter = new Shooter(this);
+        intake = new Thing(this);
+        paths = new Paths(follower);
+        ll = hardwareMap.get(Limelight3A.class, "limelight");
 
-        while (!opModeIsActive() && !isStopRequested()) {
-            //add stuff you need for init
+        follower.setPose(new Pose(110, 135, Math.toRadians(90)));
+    }
+    public enum PathState {
+        PRELOAD,
+        INTAKE1, SCORE1,
+        INTAKE2, SCORE2,
+        INTAKE3, SCORE3,
+        EMPTY, PARK,
+        DONE
+    }
+    PathState pathState;
+    public void statePathUpdate() {
+        switch (pathState) {
+            case PRELOAD:
+                if (pathTimer.getElapsedTimeSeconds() >= .1) {
+                    shooter.runShooter();
+                } else
+                    if (pathTimer.getElapsedTimeSeconds() >= 2.4) {
+                        shooter.stopShooter();
+                    }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 1.5) {
+                    intake.IntakeOn();
+                }
+                    if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2.5) {
+                        intake.IntakeOff();
+                        shooter.reverseShooter();
+                    }
+                        if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 4) {
+                        follower.followPath(paths.Intake1, true);
+                        setPathState(PathState.INTAKE1);
+                }
+                    break;
+            case INTAKE1:
+                if (pathTimer.getElapsedTimeSeconds() >= 1 && pathTimer.getElapsedTimeSeconds() <= 2.8) {
+                    intake.IntakeSlow();
+                }
+                if (pathTimer.getElapsedTimeSeconds() >= 2.8) {
+                    follower.followPath(paths.Score1, true);
+                    setPathState(PathState.SCORE1);
+                }
+                break;
+            case SCORE1:
+                if (pathTimer.getElapsedTimeSeconds() >= .1 && pathTimer.getElapsedTimeSeconds() < .135) {
+                    intake.IntakeReverse();
+                } else if (pathTimer.getElapsedTimeSeconds() >= .135){
+                    intake.IntakeOff();
+                }
+                if (pathTimer.getElapsedTimeSeconds() >= .25) {
+                    shooter.runShooter();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 1.8) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 3.2) {
+                    shooter.reverseShooter();
+                    follower.followPath(paths.Intake2, true);
+                    setPathState(PathState.INTAKE2);
+                }
+                break;
+            case INTAKE2:
+                    if (follower.isBusy()) {
+                        intake.IntakeOn();
+                    }
+                if (!follower.isBusy()) {
+                    follower.followPath(paths.Empty, true);
+                    setPathState(PathState.EMPTY);
+                }
+                break;
+            case EMPTY:
+                if (!follower.isBusy()) {
+                    follower.followPath(paths.Score2, true);
+                    setPathState(PathState.SCORE2);
+                }
+                break;
+            case SCORE2:
+                if (pathTimer.getElapsedTimeSeconds() >= .1 && pathTimer.getElapsedTimeSeconds() < .18) {
+                    intake.IntakeReverse();
+                } else if (pathTimer.getElapsedTimeSeconds() >= .225 && pathTimer.getElapsedTimeSeconds() < .5) {
+                    intake.IntakeOff();
+                }
+                if (pathTimer.getElapsedTimeSeconds() >= .4 && pathTimer.getElapsedTimeSeconds() < 4.7) {
+                    shooter.runShooter();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2.2) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >=2.8) {
+                    shooter.reverseShooter();
+                    intake.IntakeOff();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 3.1) {
+                    follower.followPath(paths.Intake3, true);
+                    setPathState(PathState.INTAKE3);
+                }
+                break;
+            case INTAKE3:
+                if (follower.isBusy()) {
+                    intake.IntakeOn();
+                }
+                    if (!follower.isBusy()) {
+                        follower.followPath(paths.Score3, true);
+                        setPathState(PathState.SCORE3);
+                    }
+                break;
+            case SCORE3:
+                if (pathTimer.getElapsedTimeSeconds() >= .1 && pathTimer.getElapsedTimeSeconds() < .2) {
+                    intake.IntakeReverse();
+                } else if (pathTimer.getElapsedTimeSeconds() >= .2) {
+                    intake.IntakeOff();
+                }
+                if (pathTimer.getElapsedTimeSeconds() >= .35) {
+                    shooter.runShooter();
+                }
+                if (!follower.isBusy()) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 3.5) {
+                    shooter.stopShooter();
+                    intake.IntakeOff();
+                    follower.followPath(paths.Park, true);
+                    setPathState(PathState.PARK);
+                }
+                break;
+            case PARK:
+                if (!follower.isBusy()) {
+                    setPathState(PathState.DONE);
+                }
+                break;
+            case DONE:
+                break;
         }
+    }
 
-        waitForStart();
+    public void setPathState(PathState newState) {
+        pathState = newState;
+        pathTimer.resetTimer();
+    }
 
-        if (opModeIsActive()) {
-            shooter.runShooter();
+    public void start() {
+        opModeTimer.resetTimer();
+        follower.followPath(paths.Preload, true);
+        setPathState(PathState.PRELOAD);
 
-            // Score 1 - from start position
-            Actions.runBlocking(
-                    drive.actionBuilder(beginPose)
+    }
 
-                            .setTangent(Math.toRadians(335))
-                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(315))
-                            .build());
-            sleep(75);
-            intake.IntakeOn();
-            sleep(1000);
-            shooter.stopShooter();
-            intake.IntakeOff();
+    @Override
+    public void loop() {
 
-            // Pair 3: Pos5 -> Pos6
-            Actions.runBlocking(
-                    drive.actionBuilder(StartScore)
-                            .setTangent(Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(-14, 24, Math.toRadians(90)), Math.toRadians(0))
-                            .build());
-            shooter.reverseShooter();
-            intake.IntakeOn();
-            Actions.runBlocking(
-                    drive.actionBuilder(Pos5)
-                            .strafeTo(new Vector2d(-14, 56))
-                            .build());
-            intake.IntakeReverse();
-            sleep(40);
-            shooter.stopShooter();
-            intake.IntakeOff();
-            sleep(100);
-            shooter.runShooter();
-            Actions.runBlocking(
-                    drive.actionBuilder(Pos6)
-                            .setTangent(Math.toRadians(225))
-                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(225))
-                            .build());
-            sleep(300);
-            intake.IntakeOn();
-            sleep(1000);
-            shooter.stopShooter();
-            intake.IntakeOff();
+        follower.update();
+        statePathUpdate();
 
-            // Pair 2: Pos3 -> Pos4
-            Actions.runBlocking(
-                    drive.actionBuilder(Score)
-                            .setTangent(Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(10, 20, Math.toRadians(90)), Math.toRadians(0))
-                            .build());
-            intake.IntakeOn();
-            shooter.reverseShooter();
-            Actions.runBlocking(
-                    drive.actionBuilder(Pos3)
-                            .strafeTo(new Vector2d(10, 51))
-                            .build());
-            intake.IntakeReverse();
-            sleep(60);
-            shooter.stopShooter();
-            intake.IntakeOff();
-            sleep(100);
-            shooter.runShooter();
-            Actions.runBlocking(
-                    drive.actionBuilder(Pos4)
-                            .strafeTo(new Vector2d(4, 44))
-                            .strafeTo(new Vector2d(4, 55))
-                            .build());
-            Actions.runBlocking(
-                    drive.actionBuilder(Pos4)
-                            .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(180))
-                            .build());
-            sleep(80);
-            intake.IntakeOn();
-            sleep(1000);
-            shooter.stopShooter();
-            intake.IntakeOff();
-            shooter.reverseShooter();
+        telemetry.addData("Path State", pathState.toString());
+        telemetry.addData("x", follower.getPose().getX());
+        telemetry.addData("y", follower.getPose().getY());
+        telemetry.addData("heading", follower.getPose().getHeading());
+        telemetry.addData("Path time", pathTimer.getElapsedTimeSeconds());
+        telemetry.addData("Path cycle: ", pathState);
 
-            // Pair 1: Pos1 -> Pos2
-            Actions.runBlocking(
-                    drive.actionBuilder(TwoScore)
-                            .setTangent(Math.toRadians(0))
-                            .splineToLinearHeading(new Pose2d(33, 24, Math.toRadians(90)), Math.toRadians(0))
-                            .build());
-            intake.IntakeOn();
-            Actions.runBlocking(
-                    drive.actionBuilder(Pos1)
-                            .strafeTo(new Vector2d(33, 56))
-                            .build());
-            intake.IntakeReverse();
-            sleep(40);
-            intake.IntakeOff();
-            sleep(100);
-            shooter.runShooter();
-            Actions.runBlocking(
-                    drive.actionBuilder(Pos2)
-                            .setTangent(Math.toRadians(270))
-                            .splineToLinearHeading(new Pose2d(-30, 30, Math.toRadians(135)), Math.toRadians(180))
-                            .build());
-            sleep(80);
-            intake.IntakeOn();
-            sleep(1000);
-            shooter.stopShooter();
-            intake.IntakeOff();
-            Actions.runBlocking(
-                    drive.actionBuilder(Score)
-                            .strafeTo(new Vector2d(20, 24)
-            )
-                            .build());
-        }
     }
 }

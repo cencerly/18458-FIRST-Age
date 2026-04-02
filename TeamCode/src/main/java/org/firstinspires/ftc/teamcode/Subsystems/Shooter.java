@@ -1,13 +1,10 @@
-package org.firstinspires.ftc.teamcode;
-
-import android.health.connect.datatypes.units.Velocity;
+package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.VoltageSensor;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 
@@ -48,6 +45,8 @@ public class Shooter {
     }
 
     public void teleOp() {
+        ticksPerSecond = shooter.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
     }
     public double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
@@ -70,6 +69,8 @@ public class Shooter {
         telemetry.update();
     }
     public void runShooter() {
+        ticksPerSecond = shooter.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
         ticksPerSecond = shooter2.getVelocity();
 

@@ -8,11 +8,11 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
-import org.firstinspires.ftc.teamcode.Thing;
-import org.firstinspires.ftc.teamcode.Shooter;
+import org.firstinspires.ftc.teamcode.Subsystems.Thing;
+import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 @Config
 @Autonomous(name = "BluePark", group = "Autonomous")
-public final class BluePark extends LinearOpMode {
+public final class OldBluePark extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         Pose2d begin = new Pose2d(60, 10, Math.toRadians(180));
