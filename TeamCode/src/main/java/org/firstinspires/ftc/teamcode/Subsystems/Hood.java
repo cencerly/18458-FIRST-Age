@@ -27,11 +27,6 @@ public class Hood{
         telemetry = opMode.telemetry;
         shooter = new Shooter(opMode);
 
-        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
-        servoRight = hardwareMap.get(Servo.class, "servoRight");
-
-        servoRight.setDirection(Servo.Direction.REVERSE);
-
     }
 
     boolean HoodUp;

@@ -5,18 +5,19 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Devices.Light;
 import org.firstinspires.ftc.teamcode.PedroPath.Constants;
 import org.firstinspires.ftc.teamcode.PedroPath.Turret;
 import org.firstinspires.ftc.teamcode.Subsystems.Hood;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Thing;
+import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
 
 @TeleOp
 public class TeleOopRed extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        TransferStopper stopper = new TransferStopper(this);
         DT dt = new DT(this);
         Shooter shooter = new Shooter(this);
         Thing thing = new Thing(this);
@@ -41,6 +42,7 @@ public class TeleOopRed extends LinearOpMode {
             );
             follower.update();
 
+            stopper.teleop();
             dt.teleop();
             thing.teleOp();
             shooter.teleOp();

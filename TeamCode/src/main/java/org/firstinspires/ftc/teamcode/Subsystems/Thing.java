@@ -24,9 +24,6 @@ public class Thing {
    // private final Gamepad Driver2;
     private final Telemetry telemetry;
 
-    private final Servo servoLeft;
-    private final Servo servoRight;
-
     private static final double VERTICAL = 1.0;
     private static final double HORIZONTAL = 0.5;
 
@@ -46,11 +43,6 @@ public class Thing {
         Turret.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Turret.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
-        servoLeft = hardwareMap.get(Servo.class, "servoLeft");
-        servoRight = hardwareMap.get(Servo.class, "servoRight");
-        servoLeft.setDirection(Servo.Direction.FORWARD);
-        servoRight.setDirection(Servo.Direction.REVERSE);
-        // Default position
 
     }
 

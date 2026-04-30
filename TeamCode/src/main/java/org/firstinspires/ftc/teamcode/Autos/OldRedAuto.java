@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Thing;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 
 @Config
-@Autonomous(name = "RedAuto", group = "Autonomous")
+@Autonomous(name = "OldRedAuto", group = "Autonomous")
 public final class OldRedAuto extends LinearOpMode {
 
     @Override

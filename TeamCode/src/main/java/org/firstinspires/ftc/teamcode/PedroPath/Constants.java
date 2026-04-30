@@ -20,7 +20,7 @@ public class Constants {
             .lateralZeroPowerAcceleration(-50.35700747500148)
             .translationalPIDFCoefficients(new PIDFCoefficients(0.2, 0, 0.01, 0))
             .headingPIDFCoefficients(new PIDFCoefficients(1, 0, 0.1, 0.01))
-            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.01,0.0,0,0.6,0.0))//change
+            .drivePIDFCoefficients(new FilteredPIDFCoefficients(0.01, 0.0, 0, 0.6, 0.0))//change
             .centripetalScaling(0)//change
             .mass(11.7934016);
 
@@ -44,9 +44,10 @@ public class Constants {
                 .mecanumDrivetrain(driveConstants)
                 .build();
     }
+
     public static TwoWheelConstants localizerConstants = new TwoWheelConstants()
-            .forwardTicksToInches(0.000523485*1.2)      // same as RR inPerTick
-            .strafeTicksToInches(0.000363458288431157*2)  // same as RR lateralInPerTick
+            .forwardTicksToInches(0.000523485 * 1.2)      // same as RR inPerTick
+            .strafeTicksToInches(0.000363458288431157 * 2)  // same as RR lateralInPerTick
             .forwardEncoder_HardwareMapName("leftFront")
             .strafeEncoder_HardwareMapName("rightBack")
             .forwardPodY(3)
@@ -56,10 +57,5 @@ public class Constants {
             .IMU_Orientation(
                     new RevHubOrientationOnRobot(
                             RevHubOrientationOnRobot.LogoFacingDirection.LEFT,
-                            RevHubOrientationOnRobot.UsbFacingDirection.UP
-
-                    )
-            );
-
-
+                            RevHubOrientationOnRobot.UsbFacingDirection.UP));
 }

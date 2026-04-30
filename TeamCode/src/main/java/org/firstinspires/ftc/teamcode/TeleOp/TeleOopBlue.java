@@ -5,12 +5,12 @@ import com.pedropathing.geometry.Pose;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.Devices.Light;
 import org.firstinspires.ftc.teamcode.PedroPath.Constants;
 import org.firstinspires.ftc.teamcode.PedroPath.Turret;
 import org.firstinspires.ftc.teamcode.Subsystems.Hood;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Thing;
+import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
 
 @TeleOp
 public class TeleOopBlue extends LinearOpMode {
@@ -19,10 +19,11 @@ public class TeleOopBlue extends LinearOpMode {
         Follower follower = Constants.createFollower(hardwareMap);
         follower.startTeleopDrive();
 
+        TransferStopper stopper = new TransferStopper(this);
         Shooter shooter = new Shooter(this);
         Thing thing = new Thing(this);
         Hood hood = new Hood(this);
-        Light light = new Light(this, shooter);
+       // Light light = new Light(this, shooter);
         Turret turret = new Turret(hardwareMap, follower, Turret.Alliance.BLUE);
         turret.init();
 
@@ -40,10 +41,11 @@ public class TeleOopBlue extends LinearOpMode {
             );
             follower.update();
 
+            stopper.teleop();
             thing.teleOp();
             shooter.teleOp();
             hood.teleop();
-            light.teleop();
+           // light.teleop();
 
             boolean currentA = gamepad1.dpad_up;
             if (currentA && !lastA) {
@@ -72,6 +74,7 @@ public class TeleOopBlue extends LinearOpMode {
             telemetry.addData("Target RPM", "%.0f", shooter.targetRPM);
             telemetry.addData("FarTargetRPM", "%.0f", shooter.farTargetRPM);
             telemetry.addData("Shooter Power", "%.3f", shooter.shooter.getPower());
+            telemetry.addData("RAW VELOCITY", shooter.shooter.getVelocity());
             telemetry.addLine();
 
             telemetry.addLine("=== ROBOT POSE ===");

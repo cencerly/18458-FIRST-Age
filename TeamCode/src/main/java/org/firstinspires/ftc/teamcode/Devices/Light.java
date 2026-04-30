@@ -1,4 +1,4 @@
- package org.firstinspires.ftc.teamcode.Devices;
+ /*package org.firstinspires.ftc.teamcode.Devices;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -17,7 +17,7 @@ public class Light {
     public Light(OpMode opMode, Shooter shooter) {
         this.shooter = shooter;
         telemetry = opMode.telemetry;
-        light = opMode.hardwareMap.get(Servo.class, "Light");
+      //  light = opMode.hardwareMap.get(Servo.class, "Light");
     }
 
     public void init() {
@@ -33,3 +33,4 @@ public class Light {
         }
         }
     }
+*/

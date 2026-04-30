@@ -351,7 +351,7 @@ public final class ManualFeedbackTuner extends LinearOpMode {
 
             manager.register(metaForClass(ManualFeedbackTuner.class), ManualFeedbackTuner.class);
             manager.register(metaForClass(SplineTest.class), SplineTest.class);
-            manager.register(metaForClass(LocalizationTest.class), LocalizationTest.class);
+
 
             manager.register(metaForClass(OTOSAngularScalarTuner.class), new OTOSAngularScalarTuner(dvf));
             manager.register(metaForClass(OTOSLinearScalarTuner.class), new OTOSLinearScalarTuner(dvf));

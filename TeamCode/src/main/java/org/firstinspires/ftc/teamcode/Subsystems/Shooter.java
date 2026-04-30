@@ -13,8 +13,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @Config
 public class Shooter {
 
-    public static double kP = 0.00021, kI = 0.00, kD = 1, kF = 0.03;
-    public static double kP2 = 0.00023, kI2 = 0.00, kD2 = 0.027, kF2 = 0;
+    public static double kP = 0.004, kI = 0.00, kD = 0.0000002, kF = 0.03;
+    public static double kP2 = 0.004, kI2 = 0.00, kD2 = 0.0000002, kF2 = 0;
 
     private PIDController velController;
     public DcMotorEx shooter, shooter2;
@@ -48,6 +48,28 @@ public class Shooter {
         ticksPerSecond = shooter.getVelocity();
         currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
+        if (Driver1.left_bumper) {
+            runShooter();
+        } else if (Driver1.x) {
+            reverseShooter();
+        } else {
+            stopShooter();
+        }
+    }
+
+    public void runShooter() {
+        ticksPerSecond = shooter.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0; // NO local variable here
+
+        velController.setPID(kP, kI, kD);
+
+        double pid = velController.calculate(currentRPM, targetRPM);
+        shooter.setPower(pid);
+        shooter2.setPower(pid);
+
+        telemetry.addData("CloseCurrent RPM", currentRPM);
+        telemetry.addData("CloseTarget RPM", targetRPM);
+        telemetry.addData("Power", pid);
     }
     public double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
@@ -61,33 +83,8 @@ public class Shooter {
         double power = pid;
         shooter.setPower(power);
         shooter2.setPower(power);
-
-        telemetry.addData("Current RPM", currentRPM);
-        telemetry.addData("TargetRPM", targetRPM);
-        telemetry.addData("FarTarget RPM", farTargetRPM);
-        telemetry.addData("Power", power);
-        telemetry.update();
     }
-    public void runShooter() {
-        ticksPerSecond = shooter.getVelocity();
-        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
-        ticksPerSecond = shooter2.getVelocity();
-
-        double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
-
-        velController.setPID(kP, kI, kD);
-
-        double pid = velController.calculate(currentRPM, targetRPM);
-        double power = pid;
-        shooter.setPower(power);
-        shooter2.setPower(power);
-
-        telemetry.addData("CloseCurrent RPM", currentRPM);
-        telemetry.addData("CloseTarget RPM", targetRPM);
-        telemetry.addData("Power", power);
-        telemetry.update();
-    }
 
     public void reverseShooter() {
         shooter.setPower(-1);

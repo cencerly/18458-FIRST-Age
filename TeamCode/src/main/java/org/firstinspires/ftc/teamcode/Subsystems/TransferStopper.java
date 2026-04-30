@@ -11,16 +11,34 @@ public class TransferStopper {
     Telemetry telemetry;
     private final Gamepad Driver1;
 
-    public static double open = 5;
-    public static double close = 0;
+    public static double down= .5;
+    public static double up = 1;
 
-    private Servo stop;
+    private Servo left;
+    private Servo right;
 
     public TransferStopper(OpMode opMode){
         HardwareMap hardwareMap = opMode.hardwareMap;
         telemetry = opMode.telemetry;
         Driver1 = opMode.gamepad1;
-        stop = hardwareMap.get(Servo.class, "transferStopper");
-        stop.setDirection(Servo.Direction.FORWARD);
+        left = hardwareMap.get(Servo.class, "left");
+        right = hardwareMap.get(Servo.class, "right");
+        left.setDirection(Servo.Direction.REVERSE);
+    }
+
+    public void init() {
+        right.setPosition(up);
+        left.setPosition((up));
+    }
+
+
+
+    boolean stopper = false;
+    boolean lastA = false;
+
+    public void teleop() {
+        if (Driver1.b) {
+
+        }
     }
 }
