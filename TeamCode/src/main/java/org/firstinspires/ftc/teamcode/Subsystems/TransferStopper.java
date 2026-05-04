@@ -11,7 +11,7 @@ public class TransferStopper {
     Telemetry telemetry;
     private final Gamepad Driver1;
 
-    public static double down= .7;
+    public static double down= .9;
     public static double up = 1;
 
     public Servo left;

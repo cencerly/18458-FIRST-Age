@@ -19,8 +19,8 @@ public class Hood{
     Telemetry telemetry;
 
     // Servo position constants
-    public static double VERTICAL = .7;
-    public static double HORIZONTAL = 0;
+    public static double VERTICAL = 0;
+    public static double HORIZONTAL = .7;
     public Hood(OpMode opMode){
         HardwareMap hardwareMap = opMode.hardwareMap;
         Driver1 = opMode.gamepad1;

@@ -34,7 +34,7 @@ public class Thing {
         HardwareMap hardwareMap = opMode.hardwareMap;
 
         Intake = hardwareMap.get(DcMotor.class, "spinner");
-        Intake.setDirection(DcMotorSimple.Direction.FORWARD);
+        Intake.setDirection(DcMotorSimple.Direction.REVERSE);
         Intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
         Intake.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
 
