@@ -13,8 +13,8 @@ import org.firstinspires.ftc.teamcode.Subsystems.Thing;
 
 
 @Config
-@Autonomous(name = "RedAuto", group = "Autonomous")
-public final class RedAuto extends LinearOpMode {
+@Autonomous(name = "15Auto", group = "Autonomous")
+public final class Auto15 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -148,9 +148,9 @@ public final class RedAuto extends LinearOpMode {
             Actions.runBlocking(
                     drive.actionBuilder(Score)
                             .strafeTo(new Vector2d(20, 24)
-            )
+                            )
                             .build());
         }
-        
+
     }
 }

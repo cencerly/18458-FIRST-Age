@@ -48,8 +48,8 @@ public class Constants {
     public static TwoWheelConstants localizerConstants = new TwoWheelConstants()
             .forwardTicksToInches(0.000523485 * 1.2)      // same as RR inPerTick
             .strafeTicksToInches(0.000363458288431157 * 2)  // same as RR lateralInPerTick
-            .forwardEncoder_HardwareMapName("leftFront")
-            .strafeEncoder_HardwareMapName("rightBack")
+            .forwardEncoder_HardwareMapName("leftBack")
+            .strafeEncoder_HardwareMapName("rightFront")
             .forwardPodY(3)
             .strafePodX(-8)
             .forwardEncoderDirection(Encoder.REVERSE)

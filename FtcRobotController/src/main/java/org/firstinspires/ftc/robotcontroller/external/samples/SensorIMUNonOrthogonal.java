@@ -179,6 +179,5 @@ public class SensorIMUNonOrthogonal extends LinearOpMode
             telemetry.addData("Pitch (X) velocity", "%.2f Deg/Sec", angularVelocity.xRotationRate);
             telemetry.addData("Roll (Y) velocity", "%.2f Deg/Sec", angularVelocity.yRotationRate);
             telemetry.update();
-        }
-    }
+        }}
 }

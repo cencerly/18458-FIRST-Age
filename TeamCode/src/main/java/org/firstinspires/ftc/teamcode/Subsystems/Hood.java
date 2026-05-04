@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -18,17 +19,19 @@ public class Hood{
     Telemetry telemetry;
 
     // Servo position constants
-    public static double VERTICAL = .35;
+    public static double VERTICAL = .7;
     public static double HORIZONTAL = 0;
-
     public Hood(OpMode opMode){
         HardwareMap hardwareMap = opMode.hardwareMap;
         Driver1 = opMode.gamepad1;
         telemetry = opMode.telemetry;
         shooter = new Shooter(opMode);
 
-    }
+        servoRight = hardwareMap.get(Servo.class, "hoodRight");
+        servoLeft = hardwareMap.get(Servo.class, "hoodLeft");
 
+        servoRight.setDirection(Servo.Direction.REVERSE);
+    }
     boolean HoodUp;
     boolean leftTriggerPrevPressed;
 
@@ -53,9 +56,6 @@ public class Hood{
             }
         } else {
             shooter.stopShooter();
-        }
-        if (Driver1.x){
-            shooter.reverseShooter();
         }
         leftTriggerPrevPressed = Driver1.left_trigger > 0.5;
         telemetry.addData("IS HOOD UP?", HoodUp);

@@ -14,7 +14,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 @TeleOp
 public class DT extends LinearOpMode {
     @Override
-    public void runOpMode() throws InterruptedException {}
+    public void runOpMode() throws InterruptedException {
+    }
 
         private final DcMotor leftFront, leftBack, rightFront, rightBack;
         private final IMU imu;
@@ -34,7 +35,7 @@ public class DT extends LinearOpMode {
 
 
             leftFront.setDirection(DcMotorSimple.Direction.REVERSE);
-            rightBack.setDirection(DcMotorSimple.Direction.REVERSE);
+            leftBack.setDirection(DcMotorSimple.Direction.REVERSE);
             setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
 

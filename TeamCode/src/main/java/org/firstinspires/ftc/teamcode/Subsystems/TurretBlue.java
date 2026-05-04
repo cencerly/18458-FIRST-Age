@@ -14,144 +14,133 @@ public class TurretBlue {
     private DcMotorEx turret;
     private MecanumDrive drive;
 
-    public static double kP = 0.02;
+    public static double kP = 0.05;
+    public static double kD = 0.003;
     public static double maxPower = 0.5;
 
-    static final double TICKS_PER_REV = 145.1;
-    static final double GEAR_RATIO = 7.0;
+    static final double MAX_ANGLE = 200.0;
+    static final double MIN_ANGLE = -139.0;
+
+    static final double TICKS_PER_REV = 8192.0;
+    static final double GEAR_RATIO = 1.0; // TODO: update to your actual gear ratio
     static final double TICKS_PER_DEG = (TICKS_PER_REV * GEAR_RATIO) / 360.0;
 
-    // Alliance goal positions
-    private static final Vector2d RED_GOAL = new Vector2d(-64, 60);
+    private static final Vector2d RED_GOAL  = new Vector2d(-57, 60);
     private static final Vector2d BLUE_GOAL = new Vector2d(-64, -60);
 
-    // Alliance selection
-    public enum Alliance {
-        RED,
-        BLUE
-    }
+    public enum Alliance { RED, BLUE }
 
     private Alliance currentAlliance;
     private Vector2d targetGoal;
+    private boolean enabled = false;
 
     public TurretBlue(HardwareMap hw, MecanumDrive drive, Alliance alliance) {
         this.drive = drive;
-        this.currentAlliance = alliance;
-
-        // Set the target goal based on alliance
         setAlliance(alliance);
 
         turret = hw.get(DcMotorEx.class, "turret");
         turret.setDirection(DcMotorSimple.Direction.REVERSE);
-        turret.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        turret.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         turret.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+
+        // Only reset encoder once at construction, when turret is known to be at 0°
+        turret.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
+        turret.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    /**
-     * Main update loop - call this continuously in your OpMode loop
-     * This automatically aims the turret at the goal based on current robot position
-     */
+    public void enable() {
+        // FIX: removed encoder reset here — resetting mid-match corrupts the angle reference
+        // if the turret is not physically at 0°. Only reset in the constructor.
+        enabled = true;
+    }
+
+    public void disable() {
+        enabled = false;
+        turret.setPower(0);
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
     public void update() {
-        // Get live robot pose from RoadRunner
-        Pose2d robotPose = drive.localizer.getPose();
+        if (!enabled) {
+            turret.setPower(0);
+            return;
+        }
 
-        // Get current turret angle relative to robot
-        double currentTurretAngle = getTurretAngleDeg();
+        double currentAngle = getTurretAngleDeg();
+        double targetAngle  = computeTargetTurretAngle(); // robot-relative, normalized to [-180, 180]
 
-        // Calculate vector from robot to goal
-        double dx = targetGoal.x - robotPose.position.x;
-        double dy = targetGoal.y - robotPose.position.y;
+        // If the desired angle is outside our travel range, flip 180° to reach from the other side
+        if (targetAngle > MAX_ANGLE) {
+            targetAngle -= 360;
+        } else if (targetAngle < MIN_ANGLE) {
+            targetAngle += 360;
+        }
 
-        // Calculate field-relative angle to target (in degrees)
-        double fieldHeadingToTarget = Math.toDegrees(Math.atan2(dy, dx));
+        // Clamp to physical limits
+        targetAngle = Range.clip(targetAngle, MIN_ANGLE, MAX_ANGLE);
 
-        // Get robot's current heading in degrees
-        double robotHeadingDeg = Math.toDegrees(robotPose.heading.toDouble());
+        // FIX: use raw difference — do NOT normalize the error.
+        // currentAngle is a raw encoder-based position; normalizing would cause direction
+        // flips near the physical limits and break PD behavior.
+        double error = targetAngle - currentAngle;
 
-        // Calculate required turret angle relative to robot
-        // This is the key: field heading to target minus robot heading
-        double targetTurretAngle = fieldHeadingToTarget - robotHeadingDeg;
+        // FIX: use motor velocity for the derivative term instead of error delta.
+        // Error delta is loop-rate-dependent and noisy; velocity is a true physical measurement.
+        double velocityDegPerSec = turret.getVelocity() / TICKS_PER_DEG;
+        double power = (kP * error) - (kD * velocityDegPerSec);
 
-        // Normalize angle to [-180, 180] range
-        targetTurretAngle = normalizeAngle(targetTurretAngle);
-
-        // Calculate error and apply proportional control
-        double error = targetTurretAngle - currentTurretAngle;
-        error = normalizeAngle(error); // Normalize error as well
-
-        double power = error * kP;
         turret.setPower(Range.clip(power, -maxPower, maxPower));
     }
 
-    /**
-     * Set which alliance you're on (RED or BLUE)
-     */
-    public void setAlliance(Alliance alliance) {
-        this.currentAlliance = alliance;
-        this.targetGoal = (alliance == Alliance.BLUE) ? RED_GOAL : BLUE_GOAL;
-    }
-
-    /**
-     * Get the current target goal position
-     */
-    public Vector2d getTargetGoal() {
-        return targetGoal;
-    }
-
-    /**
-     * Get current alliance
-     */
-    public Alliance getAlliance() {
-        return currentAlliance;
-    }
-
-    /**
-     * Get current turret angle in degrees
-     */
     public double getTurretAngleDeg() {
         return turret.getCurrentPosition() / TICKS_PER_DEG;
     }
 
-    /**
-     * Get distance to target in field units
-     */
-    public double getDistanceToTarget() {
-        Pose2d robotPose = drive.localizer.getPose();
-        double dx = targetGoal.x - robotPose.position.x;
-        double dy = targetGoal.y - robotPose.position.y;
-        return Math.sqrt(dx * dx + dy * dy);
+    private double computeTargetTurretAngle() {
+        Pose2d pose = drive.localizer.getPose();
+        double dx = targetGoal.x - pose.position.x;
+        double dy = targetGoal.y - pose.position.y;
+        double fieldHeading = Math.toDegrees(Math.atan2(dy, dx));
+        double robotHeading = Math.toDegrees(pose.heading.toDouble());
+        return normalizeAngle(fieldHeading - robotHeading);
     }
 
-    /**
-     * Check if turret is aimed at target (within tolerance)
-     */
+    public void setAlliance(Alliance alliance) {
+        this.currentAlliance = alliance;
+        this.targetGoal = (alliance == Alliance.BLUE) ? BLUE_GOAL : RED_GOAL;
+    }
+
+    public Alliance getAlliance() { return currentAlliance; }
+
+    public Vector2d getTargetGoal() { return targetGoal; }
+
     public boolean isAimedAtTarget(double toleranceDegrees) {
-        Pose2d robotPose = drive.localizer.getPose();
-        double currentTurretAngle = getTurretAngleDeg();
-
-        double dx = targetGoal.x - robotPose.position.x;
-        double dy = targetGoal.y - robotPose.position.y;
-        double fieldHeadingToTarget = Math.toDegrees(Math.atan2(dy, dx));
-        double robotHeadingDeg = Math.toDegrees(robotPose.heading.toDouble());
-        double targetTurretAngle = normalizeAngle(fieldHeadingToTarget - robotHeadingDeg);
-
-        double error = normalizeAngle(targetTurretAngle - currentTurretAngle);
+        double error = normalizeAngle(computeTargetTurretAngle() - getTurretAngleDeg());
         return Math.abs(error) < toleranceDegrees;
     }
 
-    /**
-     * Stop the turret
-     */
-    public void stop() {
-        turret.setPower(0);
+    public boolean isAtLimit() {
+        double angle = getTurretAngleDeg();
+        return angle >= MAX_ANGLE || angle <= MIN_ANGLE;
     }
 
-    /**
-     * Normalize angle to [-180, 180] range
-     */
+    public double getDistanceToTarget() {
+        Pose2d pose = drive.localizer.getPose();
+        double dx = targetGoal.x - pose.position.x;
+        double dy = targetGoal.y - pose.position.y;
+        return Math.sqrt(dx * dx + dy * dy);
+    }
+
+    public void stop() { turret.setPower(0); }
+
+    // Debug helpers
+    public double getTargetAngleDebug() { return computeTargetTurretAngle(); }
+    public double getErrorDebug()       { return computeTargetTurretAngle() - getTurretAngleDeg(); }
+
     private double normalizeAngle(double degrees) {
-        while (degrees > 180) degrees -= 360;
+        while (degrees > 180)  degrees -= 360;
         while (degrees < -180) degrees += 360;
         return degrees;
     }

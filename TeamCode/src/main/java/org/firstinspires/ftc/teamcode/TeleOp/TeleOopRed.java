@@ -1,32 +1,30 @@
 package org.firstinspires.ftc.teamcode.TeleOp;
 
-import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.Pose;
+import com.acmerobotics.roadrunner.Pose2d;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.PedroPath.Constants;
-import org.firstinspires.ftc.teamcode.PedroPath.Turret;
+import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Subsystems.Hood;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Thing;
 import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
+import org.firstinspires.ftc.teamcode.Subsystems.TurretRed;
 
 @TeleOp
 public class TeleOopRed extends LinearOpMode {
-
     @Override
     public void runOpMode() throws InterruptedException {
-        TransferStopper stopper = new TransferStopper(this);
+
         DT dt = new DT(this);
+        TransferStopper stopper = new TransferStopper(this);
         Shooter shooter = new Shooter(this);
         Thing thing = new Thing(this);
-        Hood hood = new Hood (this);
+        Hood hood = new Hood(this);
+        // Light light = new Light(this, shooter);
+        MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(30, 30, Math.toRadians(135)));
 
-        Follower follower = Constants.createFollower(hardwareMap);
-        follower.startTeleopDrive();
-
-        Turret turret = new Turret(hardwareMap, follower, Turret.Alliance.RED);
+        TurretRed turret = new TurretRed(hardwareMap, drive, TurretRed.Alliance.RED);
 
         boolean turretEnabled = false;
         boolean lastA = false;
@@ -34,38 +32,31 @@ public class TeleOopRed extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            follower.setTeleOpDrive(
-                    -gamepad1.left_stick_y,
-                    -gamepad1.left_stick_x,
-                    -gamepad1.right_stick_x,
-                    false
-            );
-            follower.update();
+            drive.updatePoseEstimate();
 
-            stopper.teleop();
             dt.teleop();
+            stopper.teleop();
             thing.teleOp();
             shooter.teleOp();
             hood.teleop();
+            // light.teleop();
+
 
             boolean currentA = gamepad1.dpad_up;
             if (currentA && !lastA) {
                 turretEnabled = !turretEnabled;
-                if (!turretEnabled) {
-                    turret.stop();
-                }
+                if (!turretEnabled) turret.stop();
             }
             lastA = currentA;
 
-            // Update turret when enabled
             if (turretEnabled) {
                 turret.update();
             }
 
             double ticksPerSecond = shooter.shooter.getVelocity();
             double currentRPM = (ticksPerSecond / 28.0) * 60.0;
+            Pose2d pose = drive.localizer.getPose();
 
-            Pose pose = follower.getPose();
             telemetry.addLine("=== TURRET ===");
             telemetry.addData("Tracking", turretEnabled ? "ON" : "OFF");
             telemetry.addData("Turret Angle", "%.1f°", turret.getTurretAngleDeg());
@@ -78,18 +69,17 @@ public class TeleOopRed extends LinearOpMode {
             telemetry.addData("Target RPM", "%.0f", shooter.targetRPM);
             telemetry.addData("FarTargetRPM", "%.0f", shooter.farTargetRPM);
             telemetry.addData("Shooter Power", "%.3f", shooter.shooter.getPower());
+            telemetry.addData("RAW VELOCITY", shooter.shooter.getVelocity());
             telemetry.addLine();
 
             telemetry.addLine("=== ROBOT POSE ===");
-            telemetry.addData("Robot X", "%.1f", pose.getX());
-            telemetry.addData("Robot Y", "%.1f", pose.getY());
-            telemetry.addData("Heading", "%.1f°", Math.toDegrees(pose.getHeading()));
             telemetry.addLine();
 
-            telemetry.addData("[A]", "Toggle Turret Tracking");
+            telemetry.addData("[dpad_up]", "Toggle Turret Tracking");
             telemetry.addData("[LB]", "Run Shooter");
             telemetry.addData("[X]", "Reverse Shooter");
 
+            telemetry.addData("Stopper Pos:", "%.1f°",stopper.left.getPosition());
             telemetry.update();
         }
     }

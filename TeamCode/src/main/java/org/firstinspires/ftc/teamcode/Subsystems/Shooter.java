@@ -2,11 +2,13 @@ package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.acmerobotics.dashboard.config.Config;
 import com.arcrobotics.ftclib.controller.PIDController;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
@@ -39,9 +41,10 @@ public class Shooter {
         shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         shooter2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
 
-        shooter2.setDirection(DcMotorSimple.Direction.REVERSE);
+        shooter.setDirection(DcMotorSimple.Direction.REVERSE);
 
         velController = new PIDController(kP, kI, kD);
+
     }
 
     public void teleOp() {
@@ -50,16 +53,14 @@ public class Shooter {
 
         if (Driver1.left_bumper) {
             runShooter();
-        } else if (Driver1.x) {
-            reverseShooter();
         } else {
             stopShooter();
         }
     }
 
     public void runShooter() {
-        ticksPerSecond = shooter.getVelocity();
-        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0; // NO local variable here
+        /*ticksPerSecond = shooter.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
         velController.setPID(kP, kI, kD);
 
@@ -67,22 +68,38 @@ public class Shooter {
         shooter.setPower(pid);
         shooter2.setPower(pid);
 
+        shooter2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
         telemetry.addData("CloseCurrent RPM", currentRPM);
         telemetry.addData("CloseTarget RPM", targetRPM);
-        telemetry.addData("Power", pid);
+        telemetry.addData("Power", pid);*/
+
+        shooter.setPower(.625);
+        shooter2.setPower(.625);
+        shooter2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
     public double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
     public void runFarShooter() {
-
-        ticksPerSecond = shooter2.getVelocity();
-
-        velController.setPID(kP2, kI2, kD2);
+       /* velController = new PIDController(kP2, kI2, kD2);
 
         double pid = velController.calculate(currentRPM, farTargetRPM);
-        double power = pid;
-        shooter.setPower(power);
-        shooter2.setPower(power);
+        ticksPerSecond = shooter2.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
+
+        shooter.setPower(pid);
+        shooter2.setPower(pid);
+
+        shooter2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+
+        telemetry.addData("FarCurrent RPM", currentRPM);
+        telemetry.addData("FarTarget RPM", farTargetRPM);*/
+
+        shooter.setPower(1);
+        shooter2.setPower(1);
+        shooter2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
 
