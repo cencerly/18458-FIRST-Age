@@ -76,7 +76,7 @@ public class TurretBlue {
 
         if (Math.abs(error) < 2.0 ) { //let me cook
             turret.setPower(0);
-            return; //ok ok ok so this thing i think should give it some leniancy so that it stoqs sooner.. and doesnt sztart shaking head like craxy maybe idk im scared leo helq
+            return; //ok ok ok so this thing i think should give it some leniancy so that it stoqs sooner, and doesnt sztart shaking head like craxy maybe idk im scared leo helq
         }
         
         double velocityDegPerSec = turret.getVelocity() / TICKS_PER_DEG;
