@@ -46,7 +46,7 @@ public class TransferStopper {
 
 
     public void teleop() {
-        if (Driver1.b) {
+        if (Driver1.right_trigger > .3) {
             stopper = !stopper;
             if (!stopper) DOWN();
             }

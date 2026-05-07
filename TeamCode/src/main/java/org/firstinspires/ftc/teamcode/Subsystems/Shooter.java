@@ -17,10 +17,13 @@ public class Shooter {
 
     public static double kP = 0.004, kI = 0.00, kD = 0.0000002, kF = 0.03;
     public static double kP2 = 0.004, kI2 = 0.00, kD2 = 0.0000002, kF2 = 0;
+    public static double kP3 = .003, kI3 = 0, kD3 = 0;
+    public static double kF3 = 0.00016;  // ~1.0 power / 6000 RPM
 
     private PIDController velController;
     public DcMotorEx shooter, shooter2;
 
+    public double reverseRPM = -1500;
     public double targetRPM = 3000;
     public double farTargetRPM = 6000;
     public double ticksPerSecond;
@@ -46,6 +49,8 @@ public class Shooter {
         velController = new PIDController(kP, kI, kD);
 
     }
+    public double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
+
 
     public void teleOp() {
         ticksPerSecond = shooter.getVelocity();
@@ -56,10 +61,34 @@ public class Shooter {
         } else {
             stopShooter();
         }
+        if (Driver1.b) {
+            reverseShooter();
+        }
+    }
+
+    public void reverseShooter() {
+        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        shooter2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        ticksPerSecond = shooter.getVelocity();
+        currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0; // positive measurement
+
+        velController.setPID(kP3, kI3, kD3);
+
+        double reverseTarget = 1500; // negative target = spin backwards
+        double pid = velController.calculate(currentRPM, reverseTarget);
+
+        shooter.setPower(-pid);
+        shooter2.setPower(-pid);
+
+        telemetry.addData("Reverse Current RPM", currentRPM);
+        telemetry.addData("Reverse Target RPM", reverseTarget);
+        telemetry.addData("Power", pid);
     }
 
     public void runShooter() {
-        /*ticksPerSecond = shooter.getVelocity();
+        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        shooter2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.FLOAT);
+        ticksPerSecond = shooter.getVelocity();
         currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
         velController.setPID(kP, kI, kD);
@@ -68,53 +97,42 @@ public class Shooter {
         shooter.setPower(pid);
         shooter2.setPower(pid);
 
-        shooter2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        shooter2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         telemetry.addData("CloseCurrent RPM", currentRPM);
         telemetry.addData("CloseTarget RPM", targetRPM);
-        telemetry.addData("Power", pid);*/
-
-        shooter.setPower(.625);
-        shooter2.setPower(.625);
-        shooter2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        telemetry.addData("Power", pid);
     }
-    public double currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
     public void runFarShooter() {
-       /* velController = new PIDController(kP2, kI2, kD2);
-
-        double pid = velController.calculate(currentRPM, farTargetRPM);
-        ticksPerSecond = shooter2.getVelocity();
+        ticksPerSecond = shooter.getVelocity();
         currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
-        shooter.setPower(pid);
-        shooter2.setPower(pid);
+        velController.setPID(kP2, kI2, kD2);
 
-        shooter2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        double pid = velController.calculate(currentRPM, farTargetRPM);
+        double feedforward = kF3 * farTargetRPM;          // F scales with target RPM
+        double power = pid + feedforward;
+
+        shooter.setPower(power);
+        shooter2.setPower(power);
 
         telemetry.addData("FarCurrent RPM", currentRPM);
-        telemetry.addData("FarTarget RPM", farTargetRPM);*/
-
-        shooter.setPower(1);
-        shooter2.setPower(1);
-        shooter2.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
-        shooter.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        telemetry.addData("FarTarget RPM", farTargetRPM);
+        telemetry.addData("FF Power", feedforward);        // helpful for tuning
+        telemetry.addData("Total Power", power);
     }
 
-
-    public void reverseShooter() {
-        shooter.setPower(-1);
-        shooter2.setPower(-1);
-    }
-
-    public void directSet(double p) {
-        shooter.setPower(p);
-        shooter2.setPower(p);
+    public void runAutoShooter() {
+        shooter.setPower(.75);
+        shooter2.setPower(.75);
     }
 
     public void stopShooter() {
+        shooter.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        shooter2.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         shooter.setPower(0);
         shooter2.setPower(0);
     }
+
 }

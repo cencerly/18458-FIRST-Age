@@ -25,7 +25,7 @@ public class Thing {
     private final Telemetry telemetry;
 
     private static final double VERTICAL = 1.0;
-    private static final double HORIZONTAL = 0.5;
+        private static final double HORIZONTAL = 0.5;
 
     public Thing(OpMode opMode) {
         Driver1 = opMode.gamepad1;
