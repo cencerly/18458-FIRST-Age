@@ -50,7 +50,7 @@ public class RedAuto extends OpMode {
                                     new Pose(109.112, 135.448),
                                     new Pose(103.000, 102.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(45))
+                    ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(46))
                     .build();
 
             Intake1A = follower.pathBuilder().addPath(

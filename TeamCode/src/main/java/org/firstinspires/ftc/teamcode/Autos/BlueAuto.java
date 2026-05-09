@@ -36,7 +36,6 @@ public class BlueAuto extends OpMode{
         public PathChain Intake1B;
         public PathChain Score1;
         public PathChain Intake3;
-        public PathChain Score4;
         public PathChain Park;
 
 
@@ -301,6 +300,8 @@ public class BlueAuto extends OpMode{
     }
 
     public void start() {
+
+        follower.setPose(new Pose(32, 135, Math.toRadians(90)));
         opModeTimer.resetTimer();
         follower.followPath(paths.Preload, true);
         setPathState(PathState.PRELOAD);
