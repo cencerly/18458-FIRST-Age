@@ -29,7 +29,6 @@ public class Shooter {
     private final Gamepad Driver1;
 
     Telemetry telemetry;
-    Hood hood;
 
     private static final double TICKS_PER_REV = 28;
 
@@ -37,8 +36,6 @@ public class Shooter {
         HardwareMap hardwareMap = opMode.hardwareMap;
         Driver1 = opMode.gamepad1;
         telemetry = opMode.telemetry;
-        Hood hood = new Hood(opMode);
-
         shooter = hardwareMap.get(DcMotorEx.class, "shooter1");
         shooter2 = hardwareMap.get(DcMotorEx.class, "shooter2");
 
@@ -59,16 +56,6 @@ public class Shooter {
         ticksPerSecond = shooter.getVelocity();
         currentRPM = (ticksPerSecond / TICKS_PER_REV) * 60.0;
 
-        if (Driver1.left_trigger > .5) {
-            hoodUp = !hoodUp;
-        }
-
-        if (hoodUp) {
-            shoot();
-        }
-        if (!hoodUp) {
-            farShoot();
-        }
     }
 
     public void reverseShooter() {
@@ -139,19 +126,4 @@ public class Shooter {
         shooter.setPower(0);
         shooter2.setPower(0);
     }
-    public void shoot() {
-        if (Driver1.left_bumper) {
-            runShooter();
-        } else {
-            stopShooter();
-        }
-    }
-    public void farShoot() {
-        if (Driver1.x) {
-            runFarShooter();
-        } else {
-            stopShooter();
-        }
-    }
-
 }

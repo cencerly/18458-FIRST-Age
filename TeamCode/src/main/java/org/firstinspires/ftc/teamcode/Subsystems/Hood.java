@@ -35,16 +35,22 @@ public class Hood{
     boolean leftTriggerPrevPressed;
 
     public void teleop() {
+
         if (Driver1.left_trigger > 0.5 && !leftTriggerPrevPressed) {
             HoodUp = !HoodUp;
+            double position = HoodUp ? HORIZONTAL : VERTICAL;
+            servoLeft.setPosition(position);
+            servoRight.setPosition(position);
+        }
 
+        if (Driver1.left_bumper) {
             if (HoodUp) {
-                servoLeft.setPosition(HORIZONTAL);
-                servoRight.setPosition(HORIZONTAL);
+                shooter.runFarShooter();
             } else {
-                servoLeft.setPosition(VERTICAL);
-                servoRight.setPosition(VERTICAL);
+                shooter.runShooter();
             }
+        } else {
+            shooter.stopShooter();
         }
 
         leftTriggerPrevPressed = Driver1.left_trigger > 0.5;

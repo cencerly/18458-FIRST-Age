@@ -51,7 +51,6 @@ public class RedAuto extends OpMode {
                                     new Pose(103.000, 102.000)
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(45))
-
                     .build();
 
             Intake1A = follower.pathBuilder().addPath(
@@ -60,7 +59,7 @@ public class RedAuto extends OpMode {
                                     new Pose(80, 22),
                                     new Pose(103.000, 20.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                    ).setLinearHeadingInterpolation(Math.toRadians(46), Math.toRadians(0))
                     .build();
 
             Intake1B = follower.pathBuilder().addPath(
@@ -79,7 +78,7 @@ public class RedAuto extends OpMode {
                                     new Pose(81, 22),
                                     new Pose(103.500, 102.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(46))
 
                     .build();
 
@@ -89,7 +88,7 @@ public class RedAuto extends OpMode {
                                     new Pose(72.822, 46.439),
                                     new Pose(102.000, 54.400)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
+                    ).setLinearHeadingInterpolation(Math.toRadians(46), Math.toRadians(0))
                     .build();
 
             Intake2B = follower.pathBuilder().addPath(
@@ -105,7 +104,7 @@ public class RedAuto extends OpMode {
                             new BezierCurve(
                                     new Pose(131.500, 52.400),
                                     new Pose(90.000, 66.000),
-                                    new Pose(134.000, 66.000)
+                                    new Pose(131.500, 66.000)
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 
@@ -117,7 +116,7 @@ public class RedAuto extends OpMode {
                                     new Pose(80, 70),
                                     new Pose(103.000, 102.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(46))
 
                     .build();
 
@@ -127,18 +126,18 @@ public class RedAuto extends OpMode {
                                     new Pose(103.000, 102.000),
                                     new Pose(96.000, 78.000),
                                     new Pose(96.000, 83.000),
-                                    new Pose(133.000, 86.000)
+                                    new Pose(131.000, 86.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                    ).setLinearHeadingInterpolation(Math.toRadians(46), Math.toRadians(0))
 
                     .build();
 
             Score4 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(133.000, 86.000),
+                                    new Pose(131.000, 86.000),
                                     new Pose(103.000, 102.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(44))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(46))
 
                     .build();
 
@@ -148,7 +147,7 @@ public class RedAuto extends OpMode {
                                     new Pose(103.000, 102.000),
                                     new Pose(103.000, 70.000)
                             )
-                    ).setConstantHeadingInterpolation(Math.toRadians(45))
+                    ).setConstantHeadingInterpolation(Math.toRadians(46))
 
                     .build();
         }
@@ -172,9 +171,8 @@ public class RedAuto extends OpMode {
         INTAKE1A, INTAKE1B,
         SCORE2,
         INTAKE2A, INTAKE2B,
-        SCORE3,
         EMPTY, PARK,
-        GATEINTAKE, SCORE4,
+         SCORE4,
         DONE
     }
     PathState pathState;

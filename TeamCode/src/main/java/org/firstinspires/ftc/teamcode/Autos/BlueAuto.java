@@ -1,6 +1,4 @@
 package org.firstinspires.ftc.teamcode.Autos;
-
-import com.acmerobotics.dashboard.config.Config;
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.Pose;
@@ -16,114 +14,274 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Thing;
 import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
 
-@Config
 @Autonomous(name = "BlueAuto", group = "Autonomous")
-    public class BlueAuto extends OpMode {
+public class BlueAuto extends OpMode{
 
     private Follower follower;
     private Timer pathTimer, opModeTimer;
     Shooter shooter;
     Thing intake;
     TransferStopper stopper;
-    private BlueAuto.Paths paths;
+    private Paths paths;
 
     public static class Paths {
-        public PathChain PRELOAD;
-        public PathChain INTAKE1;
-        public PathChain SCORE1;
-        public PathChain INTAKE2;
-        public PathChain SCORE2;
-        public PathChain INTAKE3;
-        public PathChain SCORE3;
-        public PathChain GATE;
+        public PathChain Preload;
+        public PathChain Intake4;
+        public PathChain Score3;
+        public PathChain Intake2A;
+        public PathChain Intake2B;
+        public PathChain Empty;
+        public PathChain Score2;
+        public PathChain Intake1A;
+        public PathChain Intake1B;
+        public PathChain Score1;
+        public PathChain Intake3;
+        public PathChain Score4;
+        public PathChain Park;
+
 
         public Paths(Follower follower) {
-            PRELOAD = follower.pathBuilder()
-                    .addPath(
+            Preload = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(56.000, 8.000),
-                                    new Pose(68.000, 20.000)
+                                    new Pose(32.800, 135.000),
+
+                                    new Pose(38.000, 102.000)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(115))
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(135))
                     .build();
 
-            INTAKE1 = follower.pathBuilder()
+            Intake1A = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(68.000, 20.000),
-                                    new Pose(57.000, 25.000),
-                                    new Pose(7.000, 24.000)
+                                    new Pose(41, 102),
+                                    new Pose(64, 22),
+                                    new Pose(41, 20)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(115), Math.toRadians(267))
+                    .setLinearHeadingInterpolation(Math.toRadians(135), Math.toRadians(150))
                     .build();
 
-            SCORE1 = follower.pathBuilder()
+            Intake1B = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(7.000, 24.000),
-                                    new Pose(7.000, 7.000)
+                                    new Pose(38.000, 72.000),
+                                    new Pose(14.000, 72.000)
                             )
                     )
-                    .setTangentHeadingInterpolation()
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                     .build();
 
-            INTAKE2 = follower.pathBuilder()
+            Score1 = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(7.000, 7.000),
-                                    new Pose(45.000, 9.000),
-                                    new Pose(68.000, 20.000)
+                                    new Pose(14.000, 72.000),
+                                    new Pose(58.000, 72.000),
+                                    new Pose(48.000, 96.000)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(7), Math.toRadians(115))
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
                     .build();
 
-            SCORE2 = follower.pathBuilder()
+            Intake2A = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(68.000, 20.000),
-                                    new Pose(68.000, 48.000),
-                                    new Pose(16.000, 47.000)
+                                    new Pose(48.000, 96.000),
+                                    new Pose(67.000, 46.000),
+                                    new Pose(41.000, 47.000)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(115), Math.toRadians(180))
+                    .setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
                     .build();
 
-            INTAKE3 = follower.pathBuilder()
+            Intake2B = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(16.000, 47.000),
-                                    new Pose(68.000, 20.000)
+                                    new Pose(41.000, 47.000),
+                                    new Pose(14.000, 47.000)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(115))
+                    .setConstantHeadingInterpolation(Math.toRadians(180))
                     .build();
 
-            SCORE3 = follower.pathBuilder()
+            Empty = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(68.000, 20.000),
-                                    new Pose(68.000, 76.000),
-                                    new Pose(16.000, 71.000)
+                                    new Pose(14.000, 47.000),
+                                    new Pose(24.617, 56.422),
+                                    new Pose(15.361, 61.948)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(115), Math.toRadians(180))
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                     .build();
 
-            GATE = follower.pathBuilder()
+            Score2 = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(16.000, 71.000),
-                                    new Pose(68.000, 29.000)
+                                    new Pose(15.361, 61.948),
+                                    new Pose(48.000, 96.000)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(115))
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
+                    .build();
+
+            Intake3 = follower.pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    new Pose(48.000, 96.000),
+                                    new Pose(77.041, 25.956),
+                                    new Pose(41.000, 24.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(130), Math.toRadians(180))
+                    .build();
+
+            Score3 = follower.pathBuilder()
+                    .addPath(
+                            new BezierLine(
+                                    new Pose(41.000, 24.000),
+                                    new Pose(14.000, 24.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
+                    .build();
+
+            Park = follower.pathBuilder()
+                    .addPath(
+                            new BezierCurve(
+                                    new Pose(14.000, 24.000),
+                                    new Pose(70.000, 30.000),
+                                    new Pose(48.000, 96.000)
+                            )
+                    )
+                    .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(130))
                     .build();
         }
     }
 
+    public enum PathState {
+        PRELOAD,
+        INTAKE3, SCORE1,
+        INTAKE1A, INTAKE1B,
+        SCORE2,
+        INTAKE2A, INTAKE2B,
+        SCORE3,
+        EMPTY, PARK,
+        DONE
+    }
+    PathState pathState;
+    public void statePathUpdate() {
+        switch (pathState) {
+            case PRELOAD:
+                if (pathTimer.getElapsedTimeSeconds() >= .55) {
+                    shooter.runShooter();
+                } else if
+                (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2.8) {
+                    shooter.stopShooter();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 1.7) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 3.2) {
+                    shooter.reverseShooter();
+                    intake.IntakeOff();
+                    follower.followPath(paths.Intake1A, true);
+                    setPathState(PathState.INTAKE1A);
+                }
+                break;
+            case INTAKE1A:
+                if (!follower.isBusy()) {
+                    intake.IntakeOn();
+                    follower.followPath(paths.Intake1B, true);
+                    setPathState(PathState.INTAKE1B);
+                }
+                break;
+            case INTAKE1B:
+                if (!follower.isBusy()) {
+                    intake.IntakeOff();
+                    follower.followPath(paths.Score1, true);
+                    setPathState(PathState.SCORE1);
+                }
+                break;
+            case SCORE1:
+                if (follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= .76){
+                    shooter.runShooter();
+                }
+
+                if (!follower.isBusy()) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 5.4) {
+                    shooter.reverseShooter();
+                    intake.IntakeOff();
+                    follower.followPath(paths.Intake2A, true);
+                    setPathState(PathState.INTAKE2A);
+                }
+                break;
+            case INTAKE2A:
+                if (!follower.isBusy()) {
+                    follower.followPath(paths.Intake2B, true);
+                    setPathState(PathState.INTAKE2B);
+                }
+                break;
+            case INTAKE2B:
+                if (pathTimer.getElapsedTimeSeconds() >.1) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy()) {
+                    intake.IntakeOff();
+                    follower.followPath(paths.Empty, true);
+                    setPathState(PathState.EMPTY);
+                }
+                break;
+            case EMPTY:
+                if (!follower.isBusy()) {
+                    follower.followPath(paths.Score2, true);
+                    setPathState(PathState.SCORE2);
+                }
+                break;
+            case SCORE2:
+                if (pathTimer.getElapsedTimeSeconds() >= .6) {
+                    shooter.runShooter();
+                }
+                if (!follower.isBusy()) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 4.7) {
+                    shooter.reverseShooter();
+                    intake.IntakeOff();
+                    follower.followPath(paths.Intake3, true);
+                    setPathState(PathState.INTAKE3);
+                }
+                break;
+            case INTAKE3:
+                if (pathTimer.getElapsedTimeSeconds() >= .1) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy()) {
+                    follower.followPath(paths.Score3, true);
+                    setPathState(PathState.SCORE3);
+                }
+                break;
+            case SCORE3:
+                if (pathTimer.getElapsedTimeSeconds() >=.1){
+                    shooter.runShooter();
+                }
+                if (!follower.isBusy()) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2.8) {
+                    follower.followPath(paths.Park, true);
+                    setPathState(PathState.PARK);
+                }
+                break;
+            case PARK:
+                if (!follower.isBusy()) {
+                    setPathState(PathState.DONE);
+                }
+                break;
+        }
+    }
     @Override
     public void init() {
         pathTimer = new Timer();
@@ -131,25 +289,29 @@ import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
         follower = Constants.createFollower(hardwareMap);
         shooter = new Shooter(this);
         intake = new Thing(this);
-        paths = new BlueAuto.Paths(follower);
+        paths = new Paths(follower);
         stopper = new TransferStopper(this);
 
-        follower.setPose(new Pose(56,8 , Math.toRadians(90)));
+        follower.setPose(new Pose(32, 135, Math.toRadians(90)));
     }
 
-    public enum PathState {
-        START,
-        SCORE,
-        PARK
+    public void setPathState(PathState newState) {
+        pathState = newState;
+        pathTimer.resetTimer();
     }
 
-    BlueAuto.PathState pathState;
+    public void start() {
+        opModeTimer.resetTimer();
+        follower.followPath(paths.Preload, true);
+        setPathState(PathState.PRELOAD);
+
+    }
 
     @Override
     public void loop() {
 
         follower.update();
-        //statePathUpdate();
+        statePathUpdate();
 
         telemetry.addData("Path State", pathState.toString());
         telemetry.addData("x", follower.getPose().getX());
@@ -160,5 +322,3 @@ import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
 
     }
 }
-
-
