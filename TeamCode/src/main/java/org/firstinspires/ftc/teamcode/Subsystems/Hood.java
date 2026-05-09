@@ -1,7 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -13,8 +12,8 @@ public class Hood{
     private final Gamepad Driver1;
     Shooter shooter;
 
-    private Servo servoLeft;
-    private Servo servoRight;
+    final private Servo servoLeft;
+    final private Servo servoRight;
 
     Telemetry telemetry;
 
