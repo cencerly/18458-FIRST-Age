@@ -57,93 +57,77 @@ public class RedAuto extends OpMode {
             Intake1A = follower.pathBuilder().addPath(
                             new BezierCurve(
                                     new Pose(103.000, 102.000),
-                                    new Pose(85, 22),
-                                    new Pose(90.000, 18.000)
+                                    new Pose(80, 22),
+                                    new Pose(103.000, 20.000)
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
                     .build();
 
             Intake1B = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(90.000, 18.000),
+                                    new Pose(103.000, 20.000),
 
-                                    new Pose(135.000, 18.000)
+                                    new Pose(131.70, 20.000)
                             )
                     ).setTangentHeadingInterpolation()
 
                     .build();
 
             Score1 = follower.pathBuilder().addPath(
-                            new BezierLine(
-                                    new Pose(135.000, 18.000),
-                                    new Pose(103.000, 102.000)
+                            new BezierCurve(
+                                    new Pose(131.700, 20.000),
+                                    new Pose(81, 22),
+                                    new Pose(103.500, 102.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(48))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
 
                     .build();
 
             Intake2A = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(103.000, 102.000),
+                                    new Pose(103.500, 102.000),
                                     new Pose(72.822, 46.439),
-                                    new Pose(102.000, 53.000)
+                                    new Pose(102.000, 54.400)
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(0))
                     .build();
 
             Intake2B = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(102.000, 53.000),
+                                    new Pose(102.000, 54.400),
 
-                                    new Pose(144.000, 53.000)
+                                    new Pose(131.500, 52.400)
                             )
                     ).setTangentHeadingInterpolation()
 
                     .build();
             Empty = follower.pathBuilder().addPath(
                             new BezierCurve(
-                                    new Pose(144.000, 53.000),
-                                    new Pose(85.000, 66.000),
-                                    new Pose(140.000, 68.000)
+                                    new Pose(131.500, 52.400),
+                                    new Pose(90.000, 66.000),
+                                    new Pose(134.000, 66.000)
                             )
                     ).setConstantHeadingInterpolation(Math.toRadians(0))
 
                     .build();
 
             Score2 = follower.pathBuilder().addPath(
-                            new BezierLine(
-                                    new Pose(140.500, 68.000),
+                            new BezierCurve(
+                                    new Pose(134.500, 66.000),
+                                    new Pose(80, 70),
                                     new Pose(103.000, 102.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(48))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(45))
 
                     .build();
 
-                GateIntake = follower.pathBuilder().addPath(
-                                new BezierCurve(
-                                        new Pose(103.000, 102.000),
-                                        new Pose(98.990, 59.312),
-                                        new Pose(136.000, 60.000)
-                                )
-                        ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(45))
-
-                        .build();
-
-                Score3 = follower.pathBuilder().addPath(
-                        new BezierLine(
-                                new Pose(136.000, 60.000),
-                                new Pose(103, 102)
-                        )
-                ).setLinearHeadingInterpolation(Math.toRadians(45), Math.toRadians(45))
-                        .build();
-
-
             Intake4 = follower.pathBuilder().addPath(
                             new BezierCurve(
+
                                     new Pose(103.000, 102.000),
                                     new Pose(96.000, 78.000),
                                     new Pose(96.000, 83.000),
-                                    new Pose(133.000, 82.000)
+                                    new Pose(133.000, 86.000)
                             )
                     ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
 
@@ -151,11 +135,10 @@ public class RedAuto extends OpMode {
 
             Score4 = follower.pathBuilder().addPath(
                             new BezierLine(
-                                    new Pose(133.000, 82.000),
-
+                                    new Pose(133.000, 86.000),
                                     new Pose(103.000, 102.000)
                             )
-                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(48))
+                    ).setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(44))
 
                     .build();
 
@@ -198,13 +181,16 @@ public class RedAuto extends OpMode {
     public void statePathUpdate() {
         switch (pathState) {
             case PRELOAD:
-                if (pathTimer.getElapsedTimeSeconds() >= .1) {
+                if (pathTimer.getElapsedTimeSeconds() >= .55) {
                     shooter.runShooter();
-                }
+                } else if
+                    (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2.8) {
+                        shooter.stopShooter();
+                    }
                 if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 1.7) {
                     intake.IntakeOn();
                 }
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2.8) {
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 3.2) {
                     shooter.reverseShooter();
                     intake.IntakeOff();
                     follower.followPath(paths.Intake1A, true);
@@ -221,16 +207,20 @@ public class RedAuto extends OpMode {
             case INTAKE1B:
                 if (!follower.isBusy()) {
                     intake.IntakeOff();
-                    shooter.runShooter();
                     follower.followPath(paths.Score1, true);
                     setPathState(PathState.SCORE1);
                 }
                 break;
             case SCORE1:
+                if (follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= .76){
+                    shooter.runShooter();
+                }
+
                 if (!follower.isBusy()) {
                     intake.IntakeOn();
                 }
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 4.3) {
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 5.4) {
+                    shooter.reverseShooter();
                     intake.IntakeOff();
                     follower.followPath(paths.Intake2A, true);
                     setPathState(PathState.INTAKE2A);
@@ -244,7 +234,6 @@ public class RedAuto extends OpMode {
                 break;
             case INTAKE2B:
                 if (pathTimer.getElapsedTimeSeconds() >.1) {
-                    stopper.UP();
                     intake.IntakeOn();
                 }
                 if (!follower.isBusy()) {
@@ -260,44 +249,32 @@ public class RedAuto extends OpMode {
                 }
                 break;
             case SCORE2:
-                if (pathTimer.getElapsedTimeSeconds() >=2.4 && pathTimer.getElapsedTimeSeconds() <= 3.9) {
-                    intake.IntakeOn();
-                }
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 4) {
-                    intake.IntakeOff();
-                    follower.followPath(paths.GateIntake, true);
-                    setPathState(PathState.GATEINTAKE);
-                }
-                break;
-            case GATEINTAKE:
-                if (follower.isBusy() && pathTimer.getElapsedTimeSeconds() <= 0.1) {
-                    stopper.DOWN();
-                    intake.IntakeOn();
-            }
-                if (!follower.isBusy()) {
-                    intake.IntakeOff();
-                    stopper.UP();
-                    follower.followPath(paths.Score3, true);
-                    setPathState(PathState.SCORE3);
-                }
-                break;
-            case SCORE3:
-                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2) {
-                    intake.IntakeOff();
+                if (pathTimer.getElapsedTimeSeconds() >= .6) {
+                    shooter.runShooter();
                 }
                 if (!follower.isBusy()) {
                     intake.IntakeOn();
+                }
+                if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 4.7) {
+                    shooter.reverseShooter();
+                    intake.IntakeOff();
                     follower.followPath(paths.Intake4, true);
                     setPathState(PathState.INTAKE4);
-            }
+                }
                 break;
             case INTAKE4:
-                if (pathTimer.getElapsedTimeSeconds() >= 3.5) {
+                if (pathTimer.getElapsedTimeSeconds() >= .1) {
+                    intake.IntakeOn();
+                }
+                if (!follower.isBusy()) {
                     follower.followPath(paths.Score4, true);
                     setPathState(PathState.SCORE4);
                 }
                 break;
             case SCORE4:
+                if (pathTimer.getElapsedTimeSeconds() >=.1){
+                    shooter.runShooter();
+                }
                 if (!follower.isBusy()) {
                     intake.IntakeOn();
                 }
@@ -320,6 +297,7 @@ public class RedAuto extends OpMode {
     }
 
     public void start() {
+        follower.setPose(new Pose(110, 135, Math.toRadians(90)));
         opModeTimer.resetTimer();
         follower.followPath(paths.Preload, true);
         setPathState(PathState.PRELOAD);

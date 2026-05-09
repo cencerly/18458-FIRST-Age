@@ -9,7 +9,6 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Thing;
 import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
 import org.firstinspires.ftc.teamcode.Subsystems.TurretBlue;
-
 @TeleOp
 public class TeleOopBlue extends LinearOpMode {
     @Override
@@ -41,10 +40,9 @@ public class TeleOopBlue extends LinearOpMode {
             if (currentA && !lastA) {
                 turretEnabled = !turretEnabled;
                 if (turretEnabled) {
-                    turret.enable();  // FIXED: now properly enables internal flag
+                    turret.enable();
                 } else {
                     turret.stop();
-                    turret.disable(); // FIXED: now properly disables internal flag
                 }
             }
             lastA = currentA;
@@ -52,6 +50,8 @@ public class TeleOopBlue extends LinearOpMode {
             if (turretEnabled) {
                 turret.update();
             }
+            if (gamepad1.x)
+                shooter.reverseShooter();
 
             double ticksPerSecond = shooter.shooter.getVelocity();
             double currentRPM = (ticksPerSecond / 28.0) * 60.0;
@@ -75,8 +75,6 @@ public class TeleOopBlue extends LinearOpMode {
             telemetry.addData("Robot Y", "%.1f", pose.position.y);
             telemetry.addData("Heading", "%.1f°", Math.toDegrees(pose.heading.toDouble()));
             telemetry.addLine();
-            telemetry.addData("Target Angle", turret.getTargetAngleDebug());
-            telemetry.addData("Error", turret.getErrorDebug());
             telemetry.addData("At Limit", turret.isAtLimit());
             telemetry.addLine();
             telemetry.addData("[dpad_up]", "Toggle Turret Tracking");

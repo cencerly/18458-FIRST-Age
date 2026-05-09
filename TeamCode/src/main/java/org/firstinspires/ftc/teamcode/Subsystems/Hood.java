@@ -47,15 +47,6 @@ public class Hood{
             }
         }
 
-        if (Driver1.left_bumper) {
-            if (HoodUp) {
-                shooter.runFarShooter();
-            } else {
-                shooter.runShooter();
-            }
-        } else {
-            shooter.stopShooter();
-        }
         leftTriggerPrevPressed = Driver1.left_trigger > 0.5;
         telemetry.addData("IS HOOD UP?", HoodUp);
     }
