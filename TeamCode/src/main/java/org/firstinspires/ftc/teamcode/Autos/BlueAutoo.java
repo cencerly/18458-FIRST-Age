@@ -12,26 +12,23 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import org.firstinspires.ftc.teamcode.PedroPath.Constants;
 import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Thing;
-import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
-
-import java.nio.file.Paths;
 
 @Autonomous (name = "BlueAutoo", group = "Autonomous")
 public class BlueAutoo extends OpMode {
     private Follower follower;
-    private Timer pathTImer, opModeTimer;
+
+    Timer pathTimer;
     Shooter shooter;
     Thing intake;
     private Paths paths;
 
     public static class Paths {
         public PathChain Preload;
-        public PathChain Intake4;
+        public PathChain Score2;
         public PathChain Score3;
         public PathChain Intake2A;
         public PathChain Intake2B;
         public PathChain Empty;
-        public PathChain Score2;
         public PathChain Intake1A;
         public PathChain Intake1B;
         public PathChain Score1;
@@ -155,7 +152,7 @@ public class BlueAutoo extends OpMode {
     }
 
     public enum PathState {
-        PRELOAD, INTAKE1A, INTAKE2A,
+        PRELOAD, INTAKE1A, INTAKE1B,
         SCORE1, INTAKE2A, INTAKE2B,
         SCORE2, INTAKE3, SCORE3, EMPTY, PARK,
         DONE
@@ -185,19 +182,96 @@ public void statePathUpdate() {
             if (!follower.isBusy()) {
             intake.IntakeOn();
             follower.followPath(paths.Intake1B, true);
+            setPathState(PathState.INTAKE1B);
             }
             break;
         case INTAKE1B:
             if (!follower.isBusy()) {
                 intake.IntakeOff();
-                folloewr.followPath(paths.Score1);
+                follower.followPath(paths.Score1);
                 setPathState(PathState.SCORE1);
             }
+            break;
+        case SCORE1:
+            if (follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= .76){
+                shooter.runShooter();
+            }
+
+            if (!follower.isBusy()) {
+                intake.IntakeOn();
+            }
+            if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 5.4) {
+                shooter.reverseShooter();
+                intake.IntakeOff();
+                follower.followPath(paths.Intake2A, true);
+                setPathState(PathState.INTAKE2A);
     }
+            break;
+        case INTAKE2A:
+            if (!follower.isBusy()) {
+                follower.followPath(paths.Intake2B, true);
+                setPathState(PathState.INTAKE2B);
+            }
+            break;
+        case INTAKE2B:
+            if (pathTimer.getElapsedTimeSeconds() >.1) {
+                intake.IntakeOn();
+            }
+            if (!follower.isBusy()) {
+                intake.IntakeOff();
+                follower.followPath(paths.Score2, true);
+                setPathState(PathState.SCORE2);
+            }
+            break;
+        case EMPTY:
+            if (!follower.isBusy()) {
+                follower.followPath(paths.Score2, true);
+                setPathState(PathState.SCORE2);
+            }
+            break;
+        case SCORE2:
+            if (pathTimer.getElapsedTimeSeconds() >= .6) {
+                shooter.runShooter();
+            }
+            if (!follower.isBusy()) {
+                intake.IntakeOn();
+            }
+            if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 4.7) {
+                shooter.reverseShooter();
+                intake.IntakeOff();
+                follower.followPath(paths.Intake3, true);
+                setPathState(PathState.INTAKE3);
+            }
+            break;
+        case INTAKE3:
+            if (pathTimer.getElapsedTimeSeconds() >= .1) {
+                intake.IntakeOn();
+            }
+            if (!follower.isBusy()) {
+                follower.followPath(paths.Score3, true);
+                setPathState(PathState.SCORE3);
+            }
+        case SCORE3:
+            if (pathTimer.getElapsedTimeSeconds() >=.1){
+                shooter.runShooter();
+            }
+            if (!follower.isBusy()) {
+                intake.IntakeOn();
+            }
+            if (!follower.isBusy() && pathTimer.getElapsedTimeSeconds() >= 2.8) {
+                follower.followPath(paths.Park, true);
+                setPathState(PathState.PARK);
+            }
+            break;
+        case PARK:
+            if (!follower.isBusy()) {
+                setPathState(PathState.DONE);
+            }
+    }
+}
             @Override
             public void init() {
         pathTimer = new Timer();
-        opModeTimer = new Timer();
         follower = Constants.createFollower(hardwareMap);
         shooter = new Shooter(this);
         intake = new Thing(this);
@@ -208,5 +282,19 @@ public void statePathUpdate() {
     public void setPathState(PathState newState) {
         pathState = newState;
         pathTimer.resetTimer();
+    }
+    @Override
+    public void loop() {
+
+        follower.update();
+        statePathUpdate();
+
+        telemetry.addData("Path State", pathState.toString());
+        telemetry.addData("x", follower.getPose().getX());
+        telemetry.addData("y", follower.getPose().getY());
+        telemetry.addData("heading", follower.getPose().getHeading());
+        telemetry.addData("Path time", pathTimer.getElapsedTimeSeconds());
+        telemetry.addData("Path cycle: ", pathState);
+
     }
 }
