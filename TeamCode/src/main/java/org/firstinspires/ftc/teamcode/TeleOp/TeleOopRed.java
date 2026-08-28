@@ -9,7 +9,7 @@ import org.firstinspires.ftc.teamcode.Subsystems.Shooter;
 import org.firstinspires.ftc.teamcode.Subsystems.Thing;
 import org.firstinspires.ftc.teamcode.Subsystems.TransferStopper;
 import org.firstinspires.ftc.teamcode.Subsystems.TurretBlue;
-@TeleOp (name = "BlueTele")
+@TeleOp (name = "RedTele")
 public class TeleOopRed extends LinearOpMode  {
     @Override
     public void runOpMode() throws InterruptedException {

@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
-public class Hood{
+public class Hood {
 
     private final Gamepad Driver1;
     Shooter shooter;

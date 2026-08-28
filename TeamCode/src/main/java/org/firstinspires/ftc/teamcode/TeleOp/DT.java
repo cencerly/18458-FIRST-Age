@@ -85,4 +85,24 @@ public class DT extends LinearOpMode {
         rightFront.setPower(frontRightPower);
         rightBack.setPower(backRightPower);
     }
+    public void turn() {
+        double y = -driver.left_stick_y;
+        double x = driver.left_stick_x * 1.1; // Counteract imperfect strafing
+        double rx = driver.right_stick_x;
+
+        double botHeading = imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS);
+        double rotX = x * Math.cos(-botHeading) - y * Math.sin(-botHeading);
+        double rotY = x * Math.sin(-botHeading) + y * Math.cos(-botHeading);
+
+        double denominator = Math.max(Math.abs(rotY) + Math.abs(rotX) + Math.abs(rx), 1.0);
+        double frontLeftPower = (rotY + rotX + rx) / denominator * speed;
+        double backLeftPower = (rotY - rotX + rx) / denominator * speed;
+        double frontRightPower = (rotY - rotX - rx) / denominator * speed;
+        double backRightPower = (rotY + rotX - rx) / denominator * speed;
+
+        leftFront.setPower(frontLeftPower);
+        leftBack.setPower(backLeftPower);
+        rightFront.setPower(-frontRightPower);
+        rightBack.setPower(-backRightPower);
+    }
 }
