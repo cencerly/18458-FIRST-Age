@@ -20,7 +20,7 @@ public class LimeLight extends OpMode {
     @Override
     public void init() {
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
-        limelight.pipelineSwitch(0);
+        limelight.pipelineSwitch(1);
         thing = new Thing(this);
         timer = new Timer();
 
@@ -44,7 +44,6 @@ public class LimeLight extends OpMode {
         } else if (llResult == null) {
             timer.getElapsedTime();
         }
-
         if (timer.getElapsedTimeSeconds() <= .35) {
             thing.IntakeOn();
         } else {
