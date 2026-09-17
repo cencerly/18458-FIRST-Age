@@ -39,6 +39,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegistrar;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
+import org.firstinspires.ftc.robotcore.external.navigation.UnnormalizedAngleUnit;
 import org.firstinspires.ftc.robotcore.internal.opmode.OpModeMeta;
 import org.firstinspires.ftc.teamcode.RoadRunner.GoBildaPinpointDriver;
 import org.firstinspires.ftc.teamcode.RoadRunner.MecanumDrive;
@@ -59,7 +60,7 @@ public final class ManualFeedbackTuner extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         if (TuningOpModes.DRIVE_CLASS.equals(MecanumDrive.class)) {
             MecanumDrive drive = new MecanumDrive(hardwareMap, new Pose2d(0, 0, 0));
-            
+
             if (drive.localizer instanceof TwoDeadWheelLocalizer) {
                 if (TwoDeadWheelLocalizer.PARAMS.perpXTicks == 0 && TwoDeadWheelLocalizer.PARAMS.parYTicks == 0) {
                     throw new RuntimeException("Odometry wheel locations not set! Run AngularRampLogger to tune them.");
@@ -123,6 +124,11 @@ public final class ManualFeedbackTuner extends LinearOpMode {
 
         private static PinpointView makePinpointView(PinpointLocalizer pl) {
             return new PinpointView() {
+                @Override
+                public float getHeadingVelocity(@NonNull UnnormalizedAngleUnit unnormalizedAngleUnit) {
+                    return 0;
+                }
+
                 GoBildaPinpointDriver.EncoderDirection parDirection = pl.initialParDirection;
                 GoBildaPinpointDriver.EncoderDirection perpDirection = pl.initialPerpDirection;
 
@@ -141,7 +147,6 @@ public final class ManualFeedbackTuner extends LinearOpMode {
                     return pl.driver.getEncoderY();
                 }
 
-                @Override
                 public float getHeadingVelocity() {
                     return (float) pl.driver.getHeadingVelocity();
                 }

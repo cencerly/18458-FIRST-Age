@@ -47,9 +47,9 @@ public class LimeLightDrive extends OpMode {
         LLResult llResult = limelight.getLatestResult();
 
        double tx = llResult.getTx();
-       double kp = .07;
+       double kp = .15;
 
-       double turnSpeed = tx * -kp;
+       double turnSpeed = tx * kp;
 
         if (llResult.isValid() && llResult.getTx() >= 15) {
             leftFront.setPower(-turnSpeed);
@@ -61,11 +61,11 @@ public class LimeLightDrive extends OpMode {
             leftBack.setPower(turnSpeed);
             rightBack.setPower(-turnSpeed);
             rightFront.setPower(-turnSpeed);
-        } else if (Math.abs(tx) <= 15 || (Math.abs(tx) >= -15)) turnSpeed = 0; {
-            leftFront.setPower(turnSpeed);
-            leftBack.setPower(turnSpeed);
-            rightBack.setPower(turnSpeed);
-            rightFront.setPower(turnSpeed);
+        } else if (Math.abs(tx) <= 15 || (Math.abs(tx) >= -15)); {
+            leftFront.setPower(0);
+            leftBack.setPower(0);
+            rightBack.setPower(0);
+            rightFront.setPower(0);
         }
     }
 }
